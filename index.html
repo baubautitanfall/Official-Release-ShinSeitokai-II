@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>「シン・探せいとかい：II」</title>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=M+PLUS+Rounded+1c:wght@400;500;700;800;900&family=Reggae+One&family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="プロジェクトデザイン.css">
+        <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+    </head>
+
+    <body>
+
+        <!-- Quiet falling marks behind the game card. -->
+        <div class="bg-decor" aria-hidden="true">
+            <span class="bg-shape bg-shape-star1">✦</span>
+            <span class="bg-shape bg-shape-star2">★</span>
+            <span class="bg-shape bg-shape-star3">✦</span>
+            <span class="bg-shape bg-shape-note">♪</span>
+            <span class="bg-shape bg-shape-heart">♡</span>
+            <span class="bg-shape bg-shape-plus">＋</span>
+            <span class="bg-shape bg-shape-diamond">◆</span>
+            <span class="bg-shape bg-shape-spark">✧</span>
+            <span class="bg-shape bg-shape-cross">×</span>
+            <span class="bg-shape bg-shape-dot bg-shape-dot1"></span>
+            <span class="bg-shape bg-shape-dot bg-shape-dot2"></span>
+            <span class="bg-shape bg-shape-dot bg-shape-dot3"></span>
+            <span class="bg-shape bg-shape-dot bg-shape-dot4"></span>
+            <span class="bg-shape bg-shape-zigzag">〰</span>
+            <span class="bg-shape bg-shape-triangle">▲</span>
+            <span class="bg-shape bg-shape-square">■</span>
+            <span class="bg-shape bg-shape-ring bg-shape-ring1"></span>
+            <span class="bg-shape bg-shape-ring bg-shape-ring2"></span>
+            <span class="bg-shape bg-shape-dot bg-shape-dot5"></span>
+            <span class="bg-shape bg-shape-dot bg-shape-dot6"></span>
+            <span class="bg-shape bg-shape-dot bg-shape-dot7"></span>
+            <span class="bg-shape bg-shape-dot bg-shape-dot8"></span>
+            <span class="bg-shape bg-shape-dot bg-shape-dot9"></span>
+            <span class="bg-shape bg-shape-dot bg-shape-dot10"></span>
+            <span class="bg-shape bg-shape-dot bg-shape-dot11"></span>
+            <span class="bg-shape bg-shape-circle bg-shape-circle1"></span>
+            <span class="bg-shape bg-shape-circle bg-shape-circle2"></span>
+            <span class="bg-shape bg-shape-circle bg-shape-circle3"></span>
+            <span class="bg-shape bg-shape-circle bg-shape-circle4"></span>
+            <span class="bg-shape bg-shape-circle bg-shape-circle5"></span>
+        </div>
+
+        <main class="container">
+            <header class="title-banner" aria-label="Game title and branding">
+                <div class="title-banner-sheen" aria-hidden="true"></div>
+                <span class="title-ribbon">STUDENT COUNCIL</span>
+                <h1 id="pageTitle">
+                    <span class="title-sparkle" aria-hidden="true">✦</span>
+                    <span id="pageTitleText">「シン・探せいとかい：II」</span>
+                </h1>
+                <p class="title-subline">SECRET ROOM • CHAPTER II</p>
+            </header>
+            <div id="stampTray" class="stamp-tray hidden" aria-live="polite"></div>
+
+            <!-- Main Menu Screen -->
+            <div id="menuScreen" class="screen">
+                <div class="menu-content">
+                    <p id="menuText" class="menu-text">ようこそ！このゲームをプレイしますか？</p>
+
+                    <div class="menu-hero">
+                        <div class="menu-selectors">
+                            <div class="language-row selector-box">
+                                <label for="languageSelect" class="language-label">Language</label>
+                                <select id="languageSelect" class="language-select">
+                                    <option value="ja">日本語</option>
+                                    <option value="en">English</option>
+                                </select>
+                            </div>
+
+                            <div class="language-row theme-row selector-box">
+                                <label for="themeSelect" class="language-label" id="themeLabel">テーマ</label>
+                                <select id="themeSelect" class="language-select">
+                                    <option value="default" id="themeOptionDefault">デフォルト</option>
+                                    <option value="mono" id="themeOptionMono">白黒コミック</option>
+                                    <option value="neon" id="themeOptionNeon">ネオン</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button id="startGameBtn" onclick="startGame()" class="btn-primary start-triangle-btn" data-callout="Let's Go!" aria-label="ゲーム開始！">
+                            <svg viewBox="0 0 200 220" class="start-triangle-svg" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <polygon points="18,16 188,108 18,200" fill="var(--red)" stroke="var(--ink)" stroke-width="9" stroke-linejoin="round"/>
+                            </svg>
+                            <span class="start-triangle-label" id="startGameLabel">スタート</span>
+                        </button>
+                    </div>
+
+                    <div class="rules-box">
+                        <h2 id="rulesTitle" class="rules-title">ゲームルール</h2>
+                        <ul id="rulesList" class="rules-list">
+                            <li>全4組の謎解きに挑戦！各組は「場所」と「特徴」のペアで固定されています🔍✨</li>
+                            <li>各問題に対して正しい答えを入力してください</li>
+                            <li>1ページに2問ずつ出題され、1問目を正解すると2問目が開きます</li>
+                            <li>ペア（1ページ2問）をクリアするごとにスタンプが1つ増えます（全部で4つ！）</li>
+                            <li>すべてのなぞなぞとコードをクリアして、宝箱を開ける！</li>
+                            <li>出題される4組の順番は毎回ランダムですが、各組のペア（場所と特徴）は必ず一緒に出ます</li>
+                        </ul>
+                    </div>
+
+                    <p id="menuDescription" class="menu-description" data-ja="「場所」と「特徴」がペアになった4組の問題をすべて解いてみよう！" data-en="Solve all 4 fixed pairs, each combining a &quot;Location&quot; question with a &quot;Feature&quot; riddle!">「場所」と「特徴」がペアになった4組の問題をすべて解いてみよう！</p>
+                </div>
+            </div>
+
+            <!-- Question Screen: 2 questions per page -->
+            <div id="questionScreen" class="screen hidden">
+                <p id="questionNumber">ページ #1 / 4</p>
+                <div class="progress-bar">
+                    <div id="progressFill" class="progress-fill" style="width: 25%;"></div>
+                </div>
+                <div id="questionPair" class="question-pair"></div>
+            </div>
+
+            <!-- Intermediate Code Input Screen (Between Questions) -->
+            <div id="intermediateCodeScreen" class="screen hidden">
+                <div class="code-content">
+                    <p id="intermediateCodeTitle" class="code-title">正解です！</p>
+
+                    <!-- ADDED: Previous Answer Display Container -->
+                    <div id="previousAnswerBox" class="previous-answer-box">
+                        <p id="previousAnswerLabel" class="previous-answer-label">前回の答え / Previous Answer:</p>
+                        <p id="previousAnswerText" class="previous-answer-text"></p>
+                    </div>
+
+                    <div id="mapToggle" class="maptogglebox">
+                        <p id="mapToggleLabel" class="map-toggle-label">地図を表示 / Show Map:</p>
+                        <button id="mapToggleBtn" onclick="toggleMap()" class="btn-secondary" data-callout="Toggle Map!">地図を見てみる、、、？！</button>
+                        <div id="mapContainer" class="game-map-container hidden"></div>
+                    </div>
+
+                    <p id="intermediateCodeDescription" class="code-description">次の問題に進むため、シークレットコードを入力またはスキャンしてください。今見つけた教室の場所を確認したい時は地図を見てみて！</p>
+                    
+
+                    <!-- This is the damn password dont ever change it into text for gods sake-->
+                    <div class="code-input-section">
+                        <p id="intermediateManualLabel" class="code-label">手動でコードを入力:</p>
+                        <input
+                         type="password"
+                         id="intermediateCodeInput"
+                         placeholder="コードを入力してください"
+                         class="code-input"
+                         autocomplete="off"
+                         autocapitalize="characters"
+                         >
+                        <button id="intermediateSubmitBtn" onclick="submitIntermediateCode()" class="btn-primary" data-callout="Submit Code!">コード送信</button>
+                    </div>
+
+                    <div class="qr-section">
+                        <p id="intermediateQrLabel" class="qr-label">またはQRコードをスキャン:</p>
+                        <button onclick="toggleIntermediateQRScanner()" class="btn-secondary" id="intermediateQrToggleBtn" data-callout="QR Scanner!">QRスキャナーを開く</button>
+                        
+                        <div id="intermediateQrScannerContainer" class="qr-scanner-container hidden">
+                            <video id="intermediateQrVideo" class="qr-video"></video>
+                            <canvas id="intermediateQrCanvas" class="hidden"></canvas>
+                            <p id="intermediateQrScannerStatus" class="qr-status">カメラをアクセス中...</p>
+                            <button id="intermediateQrCloseBtn" onclick="stopIntermediateQRScanner()" class="btn-secondary" data-callout="Close Scanner!">スキャンを閉じる</button>
+                        </div>
+                    </div>
+
+                    <p id="intermediateCodeResult"></p>
+                </div>
+            </div>
+
+            <!-- Final Reward Screen -->
+            <div id="codeScreen" class="screen hidden">
+                <div class="code-content">
+                    <p id="finalCodeTitle" class="code-title">やったね！全問題をクリアしました！</p>
+                    <p id="finalCodeDescription" class="code-description">おめでとうございます！すべてのスタンプを集めました！</p>
+                    <div id="codeResult"></div>
+                </div>
+            </div>
+
+        </main>
+
+        <script src="プロジェクトファンクション.js"></script>
+
+    </body>
+</html>

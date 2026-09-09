@@ -1698,7 +1698,9 @@ html[data-theme="neon"] .final-invite-card { background: #211f34; box-shadow: 0 
 
 .quiz-source-image {
     display: block;
-    width: 100%;
+    width: auto;
+    max-width: 100%;
+    height: auto;
     max-height: 420px;
     object-fit: contain;
     margin: 0 auto;
@@ -1706,6 +1708,12 @@ html[data-theme="neon"] .final-invite-card { background: #211f34; box-shadow: 0 
     background: #ffffff;
     transform-origin: center center;
     transition: transform 0.2s ease;
+}
+
+.quiz-source-image.quiz-image-failed {
+    min-height: 180px;
+    width: 100%;
+    background: repeating-linear-gradient(135deg, var(--panel), var(--panel) 10px, rgba(27,27,31,0.08) 10px, rgba(27,27,31,0.08) 20px);
 }
 
 .quiz-image-viewport {

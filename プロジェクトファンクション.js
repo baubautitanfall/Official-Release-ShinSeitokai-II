@@ -101,7 +101,7 @@ const MAX_CLASS_COUNT = 8;
 const questions = [
         // ペア1: 新しい画像問題（恐竜→1-4） + 既存の特徴問題
         { id: 1, category: "タイプA1", categoryName: "場所", type: "choice",
-            imageFile: "1788858320018.jpg", destination: "1-4", grade: 1, classCount: MAX_CLASS_COUNT, correctClass: 4,
+            imageFile: "1788858320389.jpg", photoKey: "dinosaur", destination: "1-4", grade: 1, classCount: MAX_CLASS_COUNT, correctClass: 4,
             question: "紙切れが何を切ったものか、細かな部分にも注目して答えよう。分かった答えを入力してね。",
             questionEn: "Look closely at what the scrap of paper has cut out, then enter your answer.",
             answers: ["恐竜", "きょうりゅう", "キョウリュウ", "dinosaur", "dinosaurs", "1-4"],
@@ -112,7 +112,7 @@ const questions = [
     { id: 2, category: "タイプB1", categoryName: "特徴", type: "riddle", question: "私は毎朝東からのぼり、夕方には西に沈みます。私は何でしょう？", answers: ["太陽", "たいよう", "タイヨウ", "お日様", "おひさま"], hint1: "ヒント１: 私がいないと世界は真っ暗になります", hint2: "ヒント２: 私のおかげで昼と夜ができます" },
         // ペア2: 新しい画像問題（ダンス→体育館） + 既存の特徴問題
         { id: 3, category: "タイプA2", categoryName: "場所", type: "choice",
-            imageFile: "1788858320389.jpg", destination: "体育館",
+            imageFile: "1788858320574.jpg", photoKey: "dance", destination: "体育館",
             question: "◻︎を文字に変換して見て、訓読み以外の読み方も考えて答えよう。分かった答えを入力してね。",
             questionEn: "Convert the squares into characters, consider a reading other than the kun-yomi, and enter your answer.",
             answers: ["ダンス", "だんす", "DANCE", "dance", "体育館", "gym", "gymnasium"],
@@ -123,7 +123,7 @@ const questions = [
     { id: 4, category: "タイプB2", categoryName: "特徴", type: "riddle", question: "私には顔と針があり、毎日休まず動き続けますが、生き物ではありません。私は何でしょう？", answers: ["時計", "とけい", "トケイ"], hint1: "ヒント１: 秒針・分針・時針の3本があるものが多いです", hint2: "ヒント２: 壁や腕にかけられています" },
         // ペア3: 新しい画像問題（水餃子→中庭） + 既存の特徴問題
         { id: 5, category: "タイプA3", categoryName: "場所", type: "choice",
-            imageFile: "1788858320574.jpg", destination: "中庭",
+            imageFile: "1788858320018.jpg", photoKey: "dumpling", destination: "中庭",
             question: "ある法則に則って矢印を繋いでみよう。文字に注意を向けて、分かった答えを入力してね。",
             questionEn: "Connect the arrows according to the pattern, pay attention to the letters, and enter your answer.",
             answers: ["水餃子", "水ぎょうざ", "すいぎょうざ", "餃子", "ぎょうざ", "dumpling", "dumplings", "中庭", "courtyard"],
@@ -134,7 +134,7 @@ const questions = [
     { id: 6, category: "タイプB3", categoryName: "特徴", type: "riddle", question: "私は毎日姿を変えるのに、いつも同じ壁に貼られています。私は何でしょう？", answers: ["カレンダー", "かれんだー", "こよみ"], hint1: "ヒント１: 1年365日の予定を確認するのに使います", hint2: "ヒント２: 12枚のページに分かれていることが多いです" },
         // ペア4: 新しい画像問題（光線→3-3 / 3-1） + 既存の特徴問題
         { id: 7, category: "タイプA4", categoryName: "場所", type: "choice",
-            imageFile: "1788858320768.jpg", destination: "3-3", grade: 3, classCount: MAX_CLASS_COUNT, correctClass: 3,
+            imageFile: "1788858320768.jpg", photoKey: "ray", destination: "3-3", grade: 3, classCount: MAX_CLASS_COUNT, correctClass: 3,
             question: "ふりがなを意識して答えよう。言語を変えると見えてくる答えを入力してね。",
             questionEn: "Pay attention to the furigana, switch languages to find the answer, and enter it.",
             answers: ["光線", "こうせん", "RAY", "ray", "3-3", "3-1"],
@@ -144,6 +144,23 @@ const questions = [
             hint2En: "Hint 2: Try changing the language." },
     { id: 8, category: "タイプB4", categoryName: "特徴", type: "riddle", question: "私は口がないのに、たくさんの物語を語りかけます。私は何でしょう？", answers: ["本", "ほん", "書籍", "絵本"], hint1: "ヒント１: ページをめくって読みます", hint2: "ヒント２: 図書室にたくさん並んでいます" }
 ];
+
+const QUIZ_IMAGE_DIRECTORY = 'Type A Problems with Text Content/';
+
+function getQuizImageUrl(filename, photoKey) {
+    if (photoKey && typeof getQuizPhotoSource === 'function') {
+        return getQuizPhotoSource(photoKey);
+    }
+    return `${QUIZ_IMAGE_DIRECTORY}${encodeURIComponent(filename)}`;
+}
+
+function preloadQuizImages() {
+    questions.forEach(question => {
+        if (!question.imageFile) return;
+        const image = new Image();
+        image.src = getQuizImageUrl(question.imageFile, question.photoKey);
+    });
+}
 
 function escapeHtml(str) {
     return String(str ?? '').replace(/[&<>"']/g, (c) => ({
@@ -1638,8 +1655,14 @@ function buildQuestionCard(question, slot) {
 
         const image = document.createElement('img');
         image.className = 'quiz-source-image';
-        image.src = `Type A Problems with Text Content/${question.imageFile}`;
+        image.src = getQuizImageUrl(question.imageFile, question.photoKey);
         image.alt = gameState.language === 'en' ? 'Picture puzzle' : '画像謎解き';
+        image.decoding = 'async';
+        image.loading = 'eager';
+        image.addEventListener('error', () => {
+            image.classList.add('quiz-image-failed');
+            image.alt = gameState.language === 'en' ? 'Quiz image could not be loaded' : '画像を読み込めませんでした';
+        }, { once: true });
 
         const imageViewport = document.createElement('div');
         imageViewport.className = 'quiz-image-viewport';
@@ -2290,6 +2313,7 @@ function resetGame() {
 // INITIALIZATION & EASTER EGGS
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
+    preloadQuizImages();
     const languageSelect = document.getElementById('languageSelect');
     const preferredLanguage = getPreferredLanguage();
     if (languageSelect) {

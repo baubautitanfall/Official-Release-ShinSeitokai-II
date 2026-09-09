@@ -1710,12 +1710,6 @@ html[data-theme="neon"] .final-invite-card { background: #211f34; box-shadow: 0 
     transition: transform 0.2s ease;
 }
 
-.quiz-source-image.quiz-image-failed {
-    min-height: 180px;
-    width: 100%;
-    background: repeating-linear-gradient(135deg, var(--panel), var(--panel) 10px, rgba(27,27,31,0.08) 10px, rgba(27,27,31,0.08) 20px);
-}
-
 .quiz-image-viewport {
     display: flex;
     justify-content: center;

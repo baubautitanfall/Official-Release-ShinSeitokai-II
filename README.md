@@ -21,4 +21,4 @@ git remote add origin https://github.com/YOUR-USERNAME/YOUR-REPOSITORY.git
 git push -u origin main
 ```
 
-The quiz photos are stored in `Type A Problems with Text Content/` and are loaded by their original filenames with URL-safe paths.
+The four "Type A" location puzzles (dinosaur / dance / dumpling / ray) are drawn as inline SVG code in `quizPuzzleSvgs.js` — no photo or image files are needed for the quiz to run or to publish to GitHub.

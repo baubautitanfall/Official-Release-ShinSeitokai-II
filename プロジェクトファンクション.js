@@ -146,11 +146,8 @@ const questions = [
 ];
 
 function preloadQuizImages() {
-    questions.forEach(question => {
-        if (!question.photoKey) return;
-        const image = new Image();
-        image.src = getQuizPhotoSource(question.photoKey);
-    });
+    // No-op: Type A puzzle art is now inline SVG (see quizPuzzleSvgs.js),
+    // so there is no binary image asset to preload over the network.
 }
 
 function escapeHtml(str) {

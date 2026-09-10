@@ -1,4 +1,6 @@
-/* Named, lossless JavaScript photo assets used by the Picture section. */
+/* Renders the Type A puzzle art from inline SVG (see quizPuzzleSvgs.js)
+   instead of loading a binary photo file — nothing here needs an
+   image asset to be committed alongside the code. */
 const QUIZ_PHOTO_ASSETS = Object.freeze({
     dinosaur: { answer: 'dinosaur' },
     dance: { answer: 'dance' },
@@ -6,16 +8,16 @@ const QUIZ_PHOTO_ASSETS = Object.freeze({
     ray: { answer: 'ray' }
 });
 
-function getQuizPhotoSource(photoKey) {
-    return QUIZ_PHOTO_DATA[photoKey] || '';
-}
-
 function createQuizPhoto(photoKey) {
-    const image = document.createElement('img');
-    image.className = 'quiz-source-image';
-    image.src = getQuizPhotoSource(photoKey);
-    image.alt = 'Picture puzzle';
-    image.decoding = 'async';
-    image.loading = 'eager';
-    return image;
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = getQuizPuzzleSvg(photoKey);
+    const svg = wrapper.firstElementChild;
+    if (!svg) {
+        // Fallback empty element so callers can still safely set
+        // classList/style without checking for null.
+        return document.createElement('div');
+    }
+    svg.classList.add('quiz-source-image');
+    svg.setAttribute('role', 'img');
+    return svg;
 }

@@ -8,6 +8,22 @@ The game supports one local player per browser run. The player profile, quiz pro
 
 The intermediate screen shows the answers from the pair just completed before the next code is entered. Clearing the browser's site data removes the local profile and saved progress.
 
+## Clear progress
+
+For a local copy, run this in PowerShell:
+
+```powershell
+Start-Process "file:///C:/Users/bauti/Downloads/seitokai-quiz-full/index.html?clearProgress=1"
+```
+
+For a public server, replace the URL with your deployed address:
+
+```powershell
+Start-Process "https://YOUR-DOMAIN.example/?clearProgress=1"
+```
+
+This clears the saved progress for the browser that opens the link. The project has no server database, so it cannot delete every player's history globally.
+
 ## Publish to GitHub
 
 Install Git, create an empty GitHub repository, then run these commands from this folder:
@@ -21,4 +37,4 @@ git remote add origin https://github.com/YOUR-USERNAME/YOUR-REPOSITORY.git
 git push -u origin main
 ```
 
-The four "Type A" location puzzles (dinosaur / dance / dumpling / ray) are drawn as inline SVG code in `quizPuzzleSvgs.js` — no photo or image files are needed for the quiz to run or to publish to GitHub.
+The four "Type A" location puzzles (dinosaur / dance / dumpling / ray) are drawn as inline SVG code in `quizPuzzleSvgs.js`. The four "Type B" puzzles are self-contained in `quizTypeBSvgs.js` as SVGs with the supplied artwork embedded as data, so no separate Type B photo files are needed for the quiz to run or to publish to GitHub.

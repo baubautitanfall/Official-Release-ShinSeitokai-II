@@ -414,18 +414,19 @@ html[data-theme="mono"] .login-panel { background: #ffffff; }
     font-family: var(--font-display);
     width: 100%;
     max-width: 100%;
-    font-size: clamp(1.5rem, 5.4vw, 2.7rem);
+    font-size: clamp(1.25rem, 4.5vw, 2.2rem);
     line-height: 1.12;
     letter-spacing: 0.02em;
     text-transform: none;
-    padding: 14px 12px 7px;
+    padding: 18px 24px 16px;
     overflow-wrap: anywhere;
     text-shadow: var(--title-shadow);
 }
 
 #pageTitleText {
     display: block;
-    max-width: 100%;
+    max-width: calc(100% - 12px);
+    margin: 0 auto;
     font-size: 1em;
     line-height: 1.12;
     overflow-wrap: anywhere;
@@ -435,7 +436,7 @@ html[data-theme="mono"] .login-panel { background: #ffffff; }
 #pageTitle::before {
     content: "";
     position: absolute;
-    inset: 6px 8px 12px;
+    inset: 6px 8px 10px;
     z-index: -1;
     background: var(--title-panel);
     border: 3px solid var(--ink);
@@ -838,11 +839,16 @@ html[data-theme="mono"] .login-panel { background: #ffffff; }
 }
 
 .menu-description {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 0 8px;
     color: var(--ink);
     font-weight: 700;
-    font-size: 1.05em;
+    font-size: clamp(0.82em, 2.8vw, 1.05em);
     margin-bottom: 30px;
     line-height: 1.5;
+    overflow-wrap: anywhere;
 }
 
 /* Question Screen */
@@ -1651,11 +1657,11 @@ html[data-theme="neon"] .final-invite-card { background: #211f34; box-shadow: 0 
 /* ===== Two-question page layout ===== */
 .question-pair { display:grid; grid-template-columns:1fr; gap:24px; }
 .pair-question-card { position:relative; background:var(--panel); border:4px solid var(--ink); border-radius:14px; padding:20px; box-shadow:var(--shadow-sm); overflow:hidden; animation: cardPopIn 0.4s cubic-bezier(0.22, 0.8, 0.32, 1) both; }
-.photo-question-card { display:grid; grid-template-columns:minmax(260px, 1.15fr) minmax(230px, 1fr); column-gap:24px; align-items:start; }
+.photo-question-card { display:grid; grid-template-columns:1fr; row-gap:12px; align-items:start; }
 .photo-question-card .pair-question-title,
-.photo-question-card .pair-question-text { grid-column:1 / -1; }
-.photo-question-card .quiz-image-area { grid-column:1; grid-row:3; }
-.photo-question-card .question-controls { grid-column:2; grid-row:3; }
+.photo-question-card .pair-question-text,
+.photo-question-card .quiz-image-area,
+.photo-question-card .question-controls { grid-column:1; grid-row:auto; }
 /* a little rainbow accent stripe along the top edge — small touch, but it
    keeps every question card feeling designed rather than plain-white */
 .pair-question-card::before {
@@ -1679,22 +1685,6 @@ html[data-theme="neon"] .final-invite-card { background: #211f34; box-shadow: 0 
 .pair-question-card:nth-child(2) { transform:rotate(0.25deg); }
 .pair-question-title { display:inline-block; background:var(--yellow); border:3px solid var(--ink); border-radius:8px; padding:6px 12px; font-family:var(--font-display); margin-bottom:14px; box-shadow:3px 3px 0 var(--ink); }
 .pair-question-text { font-family:var(--font-question); font-size:1.12em; font-weight:700; line-height:1.7; margin-bottom:16px; }
-
-.puzzle-image-panel {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 14px;
-    flex-wrap: wrap;
-    background: var(--panel);
-    background-image: radial-gradient(rgba(27,27,31,0.08) 1.4px, transparent 1.4px);
-    background-size: 12px 12px;
-    border: 3px solid var(--ink);
-    border-radius: 12px;
-    padding: 18px;
-    margin-bottom: 18px;
-    box-shadow: var(--shadow-sm);
-}
 
 .quiz-source-image {
     display: block;
@@ -1771,34 +1761,6 @@ html[data-theme="neon"] .final-invite-card { background: #211f34; box-shadow: 0 
     text-align: center;
 }
 
-.puzzle-image-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 64px;
-    height: 64px;
-    transition: transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.puzzle-image-icon:hover {
-    transform: scale(1.12) rotate(-3deg);
-}
-
-.puzzle-icon {
-    width: 100%;
-    height: 100%;
-}
-
-@media (max-width: 480px) {
-    .puzzle-image-panel {
-        gap: 10px;
-        padding: 14px;
-    }
-    .puzzle-image-icon {
-        width: 50px;
-        height: 50px;
-    }
-}
 .pair-question-content { margin-bottom:12px; }
 .pair-answer-input { width:100%; padding:12px; border:3px solid var(--ink); border-radius:8px; font-family:var(--font-body); font-size:1em; background:var(--panel); }
 .pair-answer-input:focus { outline:none; box-shadow:var(--shadow-sm); }
@@ -1809,26 +1771,6 @@ html[data-theme="neon"] .final-invite-card { background: #211f34; box-shadow: 0 
 .question-locked { filter:grayscale(.25); }
 .question-lock-overlay { position:absolute; inset:0; z-index:10; display:flex; align-items:center; justify-content:center; text-align:center; padding:20px; background:rgba(255,253,247,.88); backdrop-filter:blur(2px); border-radius:10px; font-family:var(--font-display); font-size:1.15em; }
 @media (min-width:720px) { .question-pair { grid-template-columns:1fr; align-items:start; } }
-@media (min-width:901px) {
-    #questionCard0 {
-        display: grid;
-        grid-template-columns: minmax(0, 1.15fr) minmax(230px, 1fr);
-        column-gap: 24px;
-        align-items: start;
-    }
-    #questionCard0 .pair-question-title,
-    #questionCard0 .pair-question-text {
-        grid-column: 1;
-    }
-    #questionCard0 .quiz-image-area,
-    #questionCard0 .puzzle-image-panel {
-        grid-column: 1;
-    }
-    #questionCard0 .question-controls {
-        grid-column: 2;
-        grid-row: 1 / span 3;
-    }
-}
 @media (max-width:900px) {
     .photo-question-card { grid-template-columns:1fr; row-gap:12px; }
     .photo-question-card .quiz-image-area,

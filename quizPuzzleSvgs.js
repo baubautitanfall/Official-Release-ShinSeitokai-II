@@ -35,15 +35,6 @@ function svgHatchCell(x, y, w, h) {
     </g>`;
 }
 
-function zigzag(points, amplitude) {
-    // points: array of [x,y] along the straight edge; returns a jittered path "d"
-    let d = `M ${points[0][0]},${points[0][1]} `;
-    for (let i = 1; i < points.length; i++) {
-        d += `L ${points[i][0]},${points[i][1]} `;
-    }
-    return d;
-}
-
 // ==========================================================
 // 1) DINOSAUR — three torn cipher-grid scraps + emoji equations
 //    (answers: 恐竜 / dinosaur / 1-4)

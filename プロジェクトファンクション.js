@@ -47,24 +47,6 @@ const gameSvgIcons = {
 
     icon_lang: `<svg class="ui-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
 
-    icon_qr: `<svg class="ui-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>`,
-
-    icon_hint: `<svg class="ui-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg>`,
-
-    icon_restart: `<svg class="ui-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>`,
-
-    puzzle_fire: `<svg class="puzzle-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="火"><path d="M24 4c2 6-4 8-4 14 0 3 2 5 4 5s4-2 4-5c3 2 5 6 5 10 0 7-6 12-13 12S7 32 7 25c0-9 8-13 8-20 0-2 1-3 1-3s6 4 6 2z" fill="#ff6b3d" stroke="#1b1b1f" stroke-width="2" stroke-linejoin="round"/><path d="M24 20c0 3-2 4-2 7 0 2 1 3 2 3s2-1 2-3" fill="#ffcc33" stroke="#1b1b1f" stroke-width="1.5" stroke-linejoin="round"/></svg>`,
-
-    puzzle_water: `<svg class="puzzle-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="水"><path d="M24 5c8 11 14 19 14 27a14 14 0 0 1-28 0c0-8 6-16 14-27z" fill="#3577f1" stroke="#1b1b1f" stroke-width="2" stroke-linejoin="round"/><path d="M15 30c0 5 3 8 7 9" fill="none" stroke="#bcd6ff" stroke-width="2.5" stroke-linecap="round"/></svg>`,
-
-    puzzle_flask: `<svg class="puzzle-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="実験器具"><path d="M19 6h10v10l9 18a4 4 0 0 1-4 6H14a4 4 0 0 1-4-6l9-18z" fill="#fffdf7" stroke="#1b1b1f" stroke-width="2" stroke-linejoin="round"/><path d="M15 30h18" stroke="#1b1b1f" stroke-width="2"/><path d="M17 30l-3 6a2 2 0 0 0 2 3h16a2 2 0 0 0 2-3l-3-6" fill="#7bd88f" stroke="none"/><line x1="17" y1="6" x2="31" y2="6" stroke="#1b1b1f" stroke-width="2.5" stroke-linecap="round"/></svg>`,
-
-    puzzle_book: `<svg class="puzzle-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="本"><path d="M6 10c6-2 12-2 18 2v26c-6-4-12-4-18-2z" fill="#ffcc33" stroke="#1b1b1f" stroke-width="2" stroke-linejoin="round"/><path d="M42 10c-6-2-12-2-18 2v26c6-4 12-4 18-2z" fill="#ff9416" stroke="#1b1b1f" stroke-width="2" stroke-linejoin="round"/></svg>`,
-
-    puzzle_magnifier: `<svg class="puzzle-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="虫眼鏡"><circle cx="20" cy="20" r="12" fill="#e9f2ff" stroke="#1b1b1f" stroke-width="2.5"/><line x1="29" y1="29" x2="41" y2="41" stroke="#1b1b1f" stroke-width="4" stroke-linecap="round"/></svg>`,
-
-    puzzle_shh: `<svg class="puzzle-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="しずかに"><circle cx="24" cy="22" r="15" fill="#ffe3c2" stroke="#1b1b1f" stroke-width="2"/><path d="M20 16c3 3 3 9 0 12" fill="none" stroke="#1b1b1f" stroke-width="2.5" stroke-linecap="round"/><circle cx="17" cy="18" r="1.6" fill="#1b1b1f"/></svg>`,
-
     // Placeholder "come find us" artwork shown on the final page until a
     // real photo of the student council room is dropped in. To use a real
     // photo instead, replace the call to getGameIconSvg('final_invite_door')
@@ -109,7 +91,7 @@ const questions = [
             hint1En: "Hint 1: Look at what the scrap of paper cut out.",
             hint2: "ヒント② 細かな部分にも注目",
             hint2En: "Hint 2: Pay attention to the small details." },
-    { id: 2, category: "タイプB1", categoryName: "特徴", type: "riddle", question: "私は毎朝東からのぼり、夕方には西に沈みます。私は何でしょう？", answers: ["太陽", "たいよう", "タイヨウ", "お日様", "おひさま"], hint1: "ヒント１: 私がいないと世界は真っ暗になります", hint2: "ヒント２: 私のおかげで昼と夜ができます" },
+    { id: 2, category: "タイプB1", categoryName: "特徴", type: "riddle", puzzleKey: "typeb1", question: "画像の謎を解いて、答えを入力してね。", questionEn: "Solve the picture puzzle and enter your answer.", answers: ["マイクラ", "まいくら", "Minecraft", "minecraft"], hint1: "ヒント① キーボードに見立ててみると", hint1En: "Hint 1: Try treating it like a keyboard.", hint2: "ヒント② それぞれを翻訳してみる", hint2En: "Hint 2: Try translating each part." },
         // ペア2: 新しい画像問題（ダンス→体育館） + 既存の特徴問題
         { id: 3, category: "タイプA2", categoryName: "場所", type: "choice",
             photoKey: "dance", destination: "体育館",
@@ -120,7 +102,7 @@ const questions = [
             hint1En: "Hint 1: Convert the squares into characters.",
             hint2: "ヒント② 訓読み以外の読み方を考えてみる",
             hint2En: "Hint 2: Think of a reading other than the kun-yomi." },
-    { id: 4, category: "タイプB2", categoryName: "特徴", type: "riddle", question: "私には顔と針があり、毎日休まず動き続けますが、生き物ではありません。私は何でしょう？", answers: ["時計", "とけい", "トケイ"], hint1: "ヒント１: 秒針・分針・時針の3本があるものが多いです", hint2: "ヒント２: 壁や腕にかけられています" },
+    { id: 4, category: "タイプB2", categoryName: "特徴", type: "riddle", puzzleKey: "typeb2", question: "画像の謎を解いて、答えを入力してね。", questionEn: "Solve the picture puzzle and enter your answer.", answers: ["ぼくとう", "木刀", "ぼくとー", "bokuto"], hint1: "ヒント① 右左以外の向きも考えてみる", hint1En: "Hint 1: Think about directions besides left and right.", hint2: "ヒント② 文字と指の色の関連性を考える", hint2En: "Hint 2: Think about the connection between the letters and the finger colors." },
         // ペア3: 新しい画像問題（水餃子→中庭） + 既存の特徴問題
         { id: 5, category: "タイプA3", categoryName: "場所", type: "choice",
             photoKey: "dumpling", destination: "中庭",
@@ -131,7 +113,7 @@ const questions = [
             hint1En: "Hint 1: Connect the arrows according to a pattern.",
             hint2: "ヒント② 文字に注意を向けてみる",
             hint2En: "Hint 2: Pay attention to the letters." },
-    { id: 6, category: "タイプB3", categoryName: "特徴", type: "riddle", question: "私は毎日姿を変えるのに、いつも同じ壁に貼られています。私は何でしょう？", answers: ["カレンダー", "かれんだー", "こよみ"], hint1: "ヒント１: 1年365日の予定を確認するのに使います", hint2: "ヒント２: 12枚のページに分かれていることが多いです" },
+    { id: 6, category: "タイプB3", categoryName: "特徴", type: "riddle", puzzleKey: "typeb3", question: "画像の謎を解いて、答えを入力してね。", questionEn: "Solve the picture puzzle and enter your answer.", answers: ["すみっこぐらし", "すみっコぐらし", "スミッコグラシ", "sumikkogurashi"], hint1: "ヒント① 動物の顔の向きに注意する", hint1En: "Hint 1: Pay attention to the direction the animals face.", hint2: "ヒント② 頭文字だけじゃない", hint2En: "Hint 2: It is not only about the first letters." },
         // ペア4: 新しい画像問題（光線→3-3 / 3-1） + 既存の特徴問題
         { id: 7, category: "タイプA4", categoryName: "場所", type: "choice",
             photoKey: "ray", destination: "3-3", grade: 3, classCount: MAX_CLASS_COUNT, correctClass: 3,
@@ -142,7 +124,7 @@ const questions = [
             hint1En: "Hint 1: Pay attention to the furigana.",
             hint2: "ヒント② 言語を変えてみる",
             hint2En: "Hint 2: Try changing the language." },
-    { id: 8, category: "タイプB4", categoryName: "特徴", type: "riddle", question: "私は口がないのに、たくさんの物語を語りかけます。私は何でしょう？", answers: ["本", "ほん", "書籍", "絵本"], hint1: "ヒント１: ページをめくって読みます", hint2: "ヒント２: 図書室にたくさん並んでいます" }
+    { id: 8, category: "タイプB4", categoryName: "特徴", type: "riddle", puzzleKey: "typeb4", question: "画像の謎を解いて、答えを入力してね。", questionEn: "Solve the picture puzzle and enter your answer.", answers: ["くま", "クマ", "熊", "bear"], hint1: "ヒント① 文字に注目する", hint1En: "Hint 1: Pay attention to the letters.", hint2: "ヒント② マスに注目する", hint2En: "Hint 2: Pay attention to the squares." }
 ];
 
 function preloadQuizImages() {
@@ -497,26 +479,26 @@ function applyClassroomOptionData(question) {
 }
 
 const englishQuestionText = {
-    2: 'I rise in the east every morning and set in the west every evening. What am I?',
-    4: 'I have a face and hands, and I never stop moving, but I am not alive. What am I?',
-    6: 'I change my appearance every day, but I always hang on the same wall. What am I?',
-    8: 'I have no mouth, yet I tell many stories. What am I?'
+    2: 'Solve the picture puzzle and enter your answer.',
+    4: 'Solve the picture puzzle and enter your answer.',
+    6: 'Solve the picture puzzle and enter your answer.',
+    8: 'Solve the picture puzzle and enter your answer.'
 };
 
 const englishAnswersMap = {
-    2: ['the sun', 'sun', 'a sun'],
-    4: ['clock', 'a clock', 'the clock', 'watch'],
-    6: ['calendar', 'a calendar', 'the calendar'],
-    8: ['book', 'a book', 'the book', 'books', 'picture book']
+    2: ['minecraft', 'mine craft'],
+    4: ['bokuto', 'wooden sword'],
+    6: ['sumikkogurashi', 'sumikko gurashi'],
+    8: ['bear']
 };
 
 const englishCorrectAnswerMap = {};
 
 const englishHintMap = {
-    2: { hint1: 'Hint 1: Without me, the world would be pitch dark.', hint2: 'Hint 2: I am the reason day and night exist.' },
-    4: { hint1: 'Hint 1: Most of us have three hands: second, minute, and hour.', hint2: 'Hint 2: We are often hung on a wall or worn on a wrist.' },
-    6: { hint1: 'Hint 1: It is used to keep track of the 365 days of the year.', hint2: 'Hint 2: It is often split into 12 pages, one per month.' },
-    8: { hint1: 'Hint 1: You read me by turning pages.', hint2: 'Hint 2: You can find lots of me in a library.' }
+    2: { hint1: 'Hint 1: Try treating it like a keyboard.', hint2: 'Hint 2: Try translating each part.' },
+    4: { hint1: 'Hint 1: Think about directions besides left and right.', hint2: 'Hint 2: Think about the connection between the letters and the finger colors.' },
+    6: { hint1: 'Hint 1: Pay attention to the direction the animals face.', hint2: 'Hint 2: It is not only about the first letters.' },
+    8: { hint1: 'Hint 1: Pay attention to the letters.', hint2: 'Hint 2: Pay attention to the squares.' }
 };
 
 const translations = {
@@ -1039,13 +1021,6 @@ function getPreferredLanguage() {
         // storage unavailable; ignore and use browser locale fallback
     }
 
-    const nav = navigator.language || navigator.languages?.[0] || 'ja';
-    const locale = String(nav).toLowerCase();
-    if (locale.startsWith('es')) return 'es';
-    if (locale.startsWith('fr')) return 'fr';
-    if (locale.startsWith('ko')) return 'ko';
-    if (locale.startsWith('zh')) return 'zh';
-    if (locale.startsWith('en')) return 'en';
     return 'ja';
 }
 
@@ -1622,7 +1597,7 @@ function renderQuestionPair() {
 
 function buildQuestionCard(question, slot) {
     const card = document.createElement('section');
-    card.className = `pair-question-card ${question.photoKey ? 'photo-question-card' : ''} ${slot === 1 && !gameState.q1Correct ? 'question-locked' : ''}`;
+    card.className = `pair-question-card ${question.photoKey || question.puzzleKey ? 'photo-question-card' : ''} ${slot === 1 && !gameState.q1Correct ? 'question-locked' : ''}`;
     card.id = `questionCard${slot}`;
 
     const title = document.createElement('div');
@@ -1637,11 +1612,19 @@ function buildQuestionCard(question, slot) {
     text.textContent = getLocalizedQuestionText(question);
     card.appendChild(text);
 
-    if (question.photoKey) {
+    if (question.photoKey || question.puzzleKey) {
         const imageArea = document.createElement('div');
         imageArea.className = 'quiz-image-area';
 
-        const image = createQuizPhoto(question.photoKey);
+        let image;
+        if (question.photoKey) {
+            image = createQuizPhoto(question.photoKey);
+        } else {
+            const wrapper = document.createElement('div');
+            wrapper.innerHTML = getTypeBPuzzleSvg(question.puzzleKey);
+            image = wrapper.firstElementChild;
+        }
+        image.classList.add('quiz-source-image');
         image.setAttribute('aria-label', gameState.language === 'en' ? 'Picture puzzle' : '画像謎解き');
 
         const imageViewport = document.createElement('div');
@@ -1671,16 +1654,6 @@ function buildQuestionCard(question, slot) {
         });
         imageArea.appendChild(zoomControls);
         card.appendChild(imageArea);
-    } else if (question.puzzleImage && question.puzzleImage.length) {
-        const imagePanel = document.createElement('div');
-        imagePanel.className = 'puzzle-image-panel';
-        question.puzzleImage.forEach(iconKey => {
-            const wrap = document.createElement('div');
-            wrap.className = 'puzzle-image-icon';
-            wrap.innerHTML = getGameIconSvg(iconKey);
-            imagePanel.appendChild(wrap);
-        });
-        card.appendChild(imagePanel);
     }
 
     const controls = document.createElement('div');
@@ -2289,10 +2262,24 @@ function resetGame() {
     persistGameState();
 }
 
+function clearProgressFromLaunchFlag() {
+    const params = new URLSearchParams(window.location.search);
+    if (!params.has('clearProgress')) return;
+
+    [STORAGE_KEY, 'selectedLanguage', 'gameTheme'].forEach((key) => {
+        try {
+            localStorage.removeItem(key);
+        } catch (e) {
+            // storage unavailable; continue with a fresh in-memory session
+        }
+    });
+}
+
 // ==========================================
 // INITIALIZATION & EASTER EGGS
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
+    clearProgressFromLaunchFlag();
     preloadQuizImages();
     const languageSelect = document.getElementById('languageSelect');
     const preferredLanguage = getPreferredLanguage();

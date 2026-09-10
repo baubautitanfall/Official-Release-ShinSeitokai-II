@@ -1,13 +1,6 @@
 /* Renders the Type A puzzle art from inline SVG (see quizPuzzleSvgs.js)
    instead of loading a binary photo file — nothing here needs an
    image asset to be committed alongside the code. */
-const QUIZ_PHOTO_ASSETS = Object.freeze({
-    dinosaur: { answer: 'dinosaur' },
-    dance: { answer: 'dance' },
-    dumpling: { answer: 'dumpling' },
-    ray: { answer: 'ray' }
-});
-
 function createQuizPhoto(photoKey) {
     const wrapper = document.createElement('div');
     wrapper.innerHTML = getQuizPuzzleSvg(photoKey);

@@ -77,54 +77,130 @@ function getGameIconSvg(name) {
 // ==========================================
 
 const ACTIVE_SECRET_CODE = 'SEITOKAI';
+const SECRET_QR_CODE_URL = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(ACTIVE_SECRET_CODE)}`;
 
 const MAX_CLASS_COUNT = 8;
 
 const questions = [
-        // ペア1: 新しい画像問題（恐竜→1-4） + 既存の特徴問題
-        { id: 1, category: "タイプA1", categoryName: "場所", type: "choice",
-            photoKey: "dinosaur", destination: "1-4", grade: 1, classCount: MAX_CLASS_COUNT, correctClass: 4,
-            question: "紙切れが何を切ったものか、細かな部分にも注目して答えよう。分かった答えを入力してね。",
-            questionEn: "Look closely at what the scrap of paper has cut out, then enter your answer.",
-            answers: ["恐竜", "きょうりゅう", "キョウリュウ", "dinosaur", "dinosaurs", "1-4"],
-            hint1: "ヒント① 紙切れが何を切ったものか",
-            hint1En: "Hint 1: Look at what the scrap of paper cut out.",
-            hint2: "ヒント② 細かな部分にも注目",
-            hint2En: "Hint 2: Pay attention to the small details." },
-    { id: 2, category: "タイプB1", categoryName: "特徴", type: "riddle", puzzleKey: "typeb1", question: "画像の謎を解いて、答えを入力してね。", questionEn: "Solve the picture puzzle and enter your answer.", answers: ["マイクラ", "まいくら", "Minecraft", "minecraft"], hint1: "ヒント① キーボードに見立ててみると", hint1En: "Hint 1: Try treating it like a keyboard.", hint2: "ヒント② それぞれを翻訳してみる", hint2En: "Hint 2: Try translating each part." },
-        // ペア2: 新しい画像問題（ダンス→体育館） + 既存の特徴問題
-        { id: 3, category: "タイプA2", categoryName: "場所", type: "choice",
-            photoKey: "dance", destination: "体育館",
-            question: "◻︎を文字に変換して見て、訓読み以外の読み方も考えて答えよう。分かった答えを入力してね。",
-            questionEn: "Convert the squares into characters, consider a reading other than the kun-yomi, and enter your answer.",
-            answers: ["ダンス", "だんす", "DANCE", "dance", "体育館", "gym", "gymnasium"],
-            hint1: "ヒント① ◻︎を文字に変換して見る",
-            hint1En: "Hint 1: Convert the squares into characters.",
-            hint2: "ヒント② 訓読み以外の読み方を考えてみる",
-            hint2En: "Hint 2: Think of a reading other than the kun-yomi." },
-    { id: 4, category: "タイプB2", categoryName: "特徴", type: "riddle", puzzleKey: "typeb2", question: "画像の謎を解いて、答えを入力してね。", questionEn: "Solve the picture puzzle and enter your answer.", answers: ["ぼくとう", "木刀", "ぼくとー", "bokuto"], hint1: "ヒント① 右左以外の向きも考えてみる", hint1En: "Hint 1: Think about directions besides left and right.", hint2: "ヒント② 文字と指の色の関連性を考える", hint2En: "Hint 2: Think about the connection between the letters and the finger colors." },
-        // ペア3: 新しい画像問題（水餃子→中庭） + 既存の特徴問題
-        { id: 5, category: "タイプA3", categoryName: "場所", type: "choice",
-            photoKey: "dumpling", destination: "中庭",
-            question: "ある法則に則って矢印を繋いでみよう。文字に注意を向けて、分かった答えを入力してね。",
-            questionEn: "Connect the arrows according to the pattern, pay attention to the letters, and enter your answer.",
-            answers: ["水餃子", "水ぎょうざ", "すいぎょうざ", "餃子", "ぎょうざ", "dumpling", "dumplings", "中庭", "courtyard"],
-            hint1: "ヒント① ある法則に則って矢印を繋いでみる",
-            hint1En: "Hint 1: Connect the arrows according to a pattern.",
-            hint2: "ヒント② 文字に注意を向けてみる",
-            hint2En: "Hint 2: Pay attention to the letters." },
-    { id: 6, category: "タイプB3", categoryName: "特徴", type: "riddle", puzzleKey: "typeb3", question: "画像の謎を解いて、答えを入力してね。", questionEn: "Solve the picture puzzle and enter your answer.", answers: ["すみっこぐらし", "すみっコぐらし", "スミッコグラシ", "sumikkogurashi"], hint1: "ヒント① 動物の顔の向きに注意する", hint1En: "Hint 1: Pay attention to the direction the animals face.", hint2: "ヒント② 頭文字だけじゃない", hint2En: "Hint 2: It is not only about the first letters." },
-        // ペア4: 新しい画像問題（光線→3-3 / 3-1） + 既存の特徴問題
-        { id: 7, category: "タイプA4", categoryName: "場所", type: "choice",
-            photoKey: "ray", destination: "3-3", grade: 3, classCount: MAX_CLASS_COUNT, correctClass: 3,
-            question: "ふりがなを意識して答えよう。言語を変えると見えてくる答えを入力してね。",
-            questionEn: "Pay attention to the furigana, switch languages to find the answer, and enter it.",
-            answers: ["光線", "こうせん", "RAY", "ray", "3-3", "3-1"],
-            hint1: "ヒント① ふりがなを意識してみる",
-            hint1En: "Hint 1: Pay attention to the furigana.",
-            hint2: "ヒント② 言語を変えてみる",
-            hint2En: "Hint 2: Try changing the language." },
-    { id: 8, category: "タイプB4", categoryName: "特徴", type: "riddle", puzzleKey: "typeb4", question: "画像の謎を解いて、答えを入力してね。", questionEn: "Solve the picture puzzle and enter your answer.", answers: ["くま", "クマ", "熊", "bear"], hint1: "ヒント① 文字に注目する", hint1En: "Hint 1: Pay attention to the letters.", hint2: "ヒント② マスに注目する", hint2En: "Hint 2: Pay attention to the squares." }
+    {
+        id: 1,
+        category: "タイプA1",
+        categoryName: "場所",
+        type: "choice",
+        photoKey: "dance",
+        destination: "体育館",
+        question: "□を「シカク」として考えてみる。🟢には英語を当てはめてみる。分かった答えを入力してね。",
+        questionEn: "Think of the square as 'shikaku' and fit English into the green circle. Enter your answer.",
+        answers: ["ダンス", "だんす", "DANCE", "dance"],
+        hint1: "ヒント① □を「シカク」として考えてみる",
+        hint1En: "Hint 1: Think of the square as 'shikaku'.",
+        hint2: "ヒント② 🟢には英語を当てはめてみる",
+        hint2En: "Hint 2: Fill the green circle with English."
+    },
+    {
+        id: 2,
+        category: "タイプB1",
+        categoryName: "特徴",
+        type: "riddle",
+        puzzleKey: "typeb4",
+        question: "画像の謎を解いて、答えを入力してね。",
+        questionEn: "Solve the picture puzzle and enter your answer.",
+        answers: ["くま", "クマ", "熊", "bear"],
+        hint1: "ヒント① 文字に注目してみる",
+        hint1En: "Hint 1: Pay attention to the letters.",
+        hint2: "ヒント② マスに注目してみる",
+        hint2En: "Hint 2: Pay attention to the squares."
+    },
+    {
+        id: 3,
+        category: "タイプA2",
+        categoryName: "場所",
+        type: "choice",
+        photoKey: "ray",
+        destination: "3-3",
+        question: "フリガナを意識してみる。日本語以外の言語を使って答えよう。",
+        questionEn: "Pay attention to the furigana and use a non-Japanese language to find the answer.",
+        answers: ["RAY", "ray", "光線", "こうせん", "3-3"],
+        hint1: "ヒント① フリガナを意識してみる",
+        hint1En: "Hint 1: Pay attention to the furigana.",
+        hint2: "ヒント② 日本語以外の言語を使う",
+        hint2En: "Hint 2: Use a language other than Japanese."
+    },
+    {
+        id: 4,
+        category: "タイプB2",
+        categoryName: "特徴",
+        type: "riddle",
+        puzzleKey: "typeb1",
+        question: "画像の謎を解いて、答えを入力してね。",
+        questionEn: "Solve the picture puzzle and enter your answer.",
+        answers: ["マイクラ", "まいくら", "Minecraft", "minecraft"],
+        hint1: "ヒント① キーボードに見立てて考える",
+        hint1En: "Hint 1: Think of it like a keyboard.",
+        hint2: "ヒント② 赤→青・青→赤の関係性を意識してみる",
+        hint2En: "Hint 2: Pay attention to the red-to-blue and blue-to-red relationship."
+    },
+    {
+        id: 5,
+        category: "タイプA3",
+        categoryName: "場所",
+        type: "choice",
+        photoKey: "dinosaur",
+        destination: "1-4",
+        grade: 1,
+        classCount: MAX_CLASS_COUNT,
+        correctClass: 4,
+        question: "紙切れが何の破片なのか注目してみる。細部まで注目して、答えを入力してね。",
+        questionEn: "Look at what the paper fragment is a piece of and pay attention to the details before entering your answer.",
+        answers: ["恐竜", "きょうりゅう", "キョウリュウ", "dinosaur", "dinosaurs"],
+        hint1: "ヒント① 紙切れが何の破片なのか注目してみる",
+        hint1En: "Hint 1: Pay attention to what the paper fragment is a piece of.",
+        hint2: "ヒント② 細部まで注目してみる",
+        hint2En: "Hint 2: Pay attention to the details."
+    },
+    {
+        id: 6,
+        category: "タイプB3",
+        categoryName: "特徴",
+        type: "riddle",
+        puzzleKey: "typeb3",
+        question: "画像の謎を解いて、答えを入力してね。",
+        questionEn: "Solve the picture puzzle and enter your answer.",
+        answers: ["すみっこぐらし", "すみっコぐらし", "スミッコグラシ", "sumikkogurashi"],
+        hint1: "ヒント① 動物の顔の向きに注目する",
+        hint1En: "Hint 1: Pay attention to the direction the animals face.",
+        hint2: "ヒント② 12が関係している動物のグループを考えてみる",
+        hint2En: "Hint 2: Think about the animal group related to 12."
+    },
+    {
+        id: 7,
+        category: "タイプA4",
+        categoryName: "場所",
+        type: "choice",
+        photoKey: "dumpling",
+        destination: "中庭",
+        question: "ある法則に則って矢印を繋いでみる。文字を文として捉えて、答えを入力してね。",
+        questionEn: "Connect the arrows according to the pattern, regard the letters as a sentence, and enter your answer.",
+        answers: ["すいぎょうざ", "水餃子", "水ぎょうざ", "餃子", "ぎょうざ", "dumpling", "dumplings"],
+        hint1: "ヒント① ある法則に則って矢印を繋いでみる",
+        hint1En: "Hint 1: Connect the arrows according to a pattern.",
+        hint2: "ヒント② 文字を文として捉える",
+        hint2En: "Hint 2: Regard the letters as a sentence."
+    },
+    {
+        id: 8,
+        category: "タイプB4",
+        categoryName: "特徴",
+        type: "riddle",
+        puzzleKey: "typeb2",
+        question: "画像の謎を解いて、答えを入力してね。",
+        questionEn: "Solve the picture puzzle and enter your answer.",
+        answers: ["ぼくとう", "木刀", "ぼくとー", "bokuto"],
+        hint1: "ヒント① 文字と指の色を関連付けて考える",
+        hint1En: "Hint 1: Connect the letters and finger colors.",
+        hint2: "ヒント② 上下以外の向きを考える",
+        hint2En: "Hint 2: Think about directions other than up and down."
+    }
 ];
 
 function preloadQuizImages() {
@@ -509,7 +585,7 @@ const translations = {
         rules: [
             '全4組の謎解きに挑戦！各組は「場所」と「特徴」のペアで固定されています🔍✨',
             '各問題に対して正しい答えを入力してください',
-            '1ページに2問ずつ出題され、どちらから答えてもOKです',
+            '1ページに2問ずつ出題され、1問目を正解すると2問目が開きます',
             'ペア（1ページ2問）をクリアするごとにスタンプが1つ増えます（全部で4つ！）',
             'すべてのなぞなぞとコードをクリアして、宝箱を開ける！',
             '出題される4組の順番は毎回ランダムですが、各組のペア（場所と特徴）は必ず一緒に出ます'
@@ -589,7 +665,7 @@ const translations = {
         rules: [
             'Resuelve 4 pares fijos de enigmas. Cada par es un conjunto de "Lugar" + "Característica".',
             'Escribe la respuesta correcta para cada pregunta.',
-            'Cada página tiene 2 preguntas; puedes responderlas en cualquier orden.',
+            'Cada página tiene 2 preguntas; la segunda se desbloquea tras responder bien la primera.',
             'Ganas 1 sello por cada par resuelto.',
             'Resuelve todos los enigmas y códigos para abrir el tesoro.',
             'El orden cambia cada partida, pero cada par siempre sigue junto.'
@@ -669,7 +745,7 @@ const translations = {
         rules: [
             'Résolvez 4 paires d’énigmes fixes. Chaque paire est un ensemble "Lieu" + "Caractéristique".',
             'Saisissez la bonne réponse pour chaque question.',
-            'Deux questions par page ; répondez-y dans l’ordre que vous voulez.',
+            'Deux questions par page ; la seconde se déverrouille après la première bonne réponse.',
             'Vous gagnez 1 tampon par paire résolue.',
             'Résolvez tous les énigmes et codes pour ouvrir le trésor.',
             'L’ordre change chaque partie, mais chaque paire reste ensemble.'
@@ -748,7 +824,7 @@ const translations = {
         rules: [
             '4개의 고정된 퍼즐 쌍을 풀어보세요. 각 쌍은 "장소" + "특징" 조합입니다.',
             '각 문제의 정답을 입력해 주세요.',
-            '한 페이지 당 2문제, 순서에 상관없이 풀 수 있습니다.',
+            '한 페이지 당 2문제, 첫 문제를 맞추면 두 번째가 열립니다.',
             '한 쌍을 풀 때마다 스탬프 1개를 얻습니다.',
             '모든 퍼즐과 코드를 정리하면 보물을 열 수 있습니다.',
             '4쌍의 순서는 매번 바뀌지만 같은 쌍은 항상 함께 나옵니다.'
@@ -827,7 +903,7 @@ const translations = {
         rules: [
             '挑战 4 组固定谜题，每组都是“地点 + 特征”组合。',
             '每题都要输入正确答案。',
-            '每页有 2 题，两题可以按任意顺序作答。',
+            '每页有 2 题，答对第 1 题后第 2 题才会解锁。',
             '每完成一组谜题即可获得 1 枚印章（共 4 枚）。',
             '解完所有谜题和代码后就能打开宝箱。',
             '每次出的 4 组顺序都有变化，但每组配对始终保持在一起。'
@@ -906,7 +982,7 @@ const translations = {
         rules: [
             'Solve 4 fixed pairs of riddles! Each pair is a locked "Location" + "Feature" set 🔍✨',
             'Enter the correct answer for each question',
-            'Two questions appear on each page; you can answer them in any order',
+            'Two questions appear on each page; Question 2 unlocks after Question 1 is correct',
             'You earn 1 stamp every time you solve a pair page (4 stamps total!)',
             'Clear all riddles and secret codes to unlock the treasure!',
             'The order of the 4 pairs is randomized each time, but each pair (Location + Feature) always stays together'
@@ -1001,8 +1077,6 @@ let gameState = {
     hint1Attempts: {},
     hint2Attempts: {},
     easyModeUsed: false,
-    helpCardUsed: false,
-    helpCardUsesLeft: 2,
     answerLocked: false,
     isCooldown: false,
     language: 'ja',
@@ -1053,8 +1127,6 @@ function browserSaveState() {
         hint1Attempts: gameState.hint1Attempts,
         hint2Attempts: gameState.hint2Attempts,
         easyModeUsed: gameState.easyModeUsed,
-        helpCardUsed: gameState.helpCardUsed,
-        helpCardUsesLeft: gameState.helpCardUsesLeft,
         mistakes: Object.fromEntries(Object.entries(gameState).filter(([key]) => key.startsWith('mistakes_'))),
         lastPairAnswerA: gameState.lastPairAnswerA || null,
         lastPairAnswerB: gameState.lastPairAnswerB || null,
@@ -1090,8 +1162,6 @@ function restoreBrowserState() {
         gameState.hint1Attempts = saved.hint1Attempts || {};
         gameState.hint2Attempts = saved.hint2Attempts || {};
         gameState.easyModeUsed = Boolean(saved.easyModeUsed);
-        gameState.helpCardUsed = Boolean(saved.helpCardUsed);
-        gameState.helpCardUsesLeft = Math.max(0, Number(saved.helpCardUsesLeft) || 2);
         gameState.lastPairAnswerA = saved.lastPairAnswerA || null;
         gameState.lastPairAnswerB = saved.lastPairAnswerB || null;
         gameState.language = SUPPORTED_LANGUAGES.includes(saved.language) ? saved.language : getPreferredLanguage();
@@ -1144,8 +1214,6 @@ function persistGameState() {
         hint1Attempts: gameState.hint1Attempts,
         hint2Attempts: gameState.hint2Attempts,
         easyModeUsed: gameState.easyModeUsed,
-        helpCardUsed: gameState.helpCardUsed,
-        helpCardUsesLeft: gameState.helpCardUsesLeft,
         lastPairAnswerA: gameState.lastPairAnswerA || null,
         lastPairAnswerB: gameState.lastPairAnswerB || null,
         language: gameState.language
@@ -1341,69 +1409,6 @@ function buildFillBlankInput(slot) {
     return input;
 }
 
-function buildTypeAHelpOptions(question, slot) {
-    const accepted = getAcceptedAnswers(question);
-    const correct = question.correctAnswer || accepted[0];
-    const pool = (question.options || accepted).filter(opt => opt !== correct);
-    const distractors = shuffleArray(pool).slice(0, 3);
-    const finalOptions = shuffleArray([correct, ...distractors]);
-
-    const container = document.createElement('div');
-    container.className = 'options-container';
-    finalOptions.forEach(optionText => {
-        const label = document.createElement('label');
-        label.className = 'choice-option';
-        const input = document.createElement('input');
-        input.type = 'radio';
-        input.name = `helpCardAnswer-${slot}`;
-        input.value = optionText;
-        label.appendChild(input);
-        label.appendChild(document.createTextNode(optionText));
-        container.appendChild(label);
-    });
-    return container;
-}
-
-function activateHelpCard(slot) {
-    const question = getPairQuestion(slot);
-    if (!question || question.type !== 'choice') return;
-    const mistakes = gameState[`mistakes_${question.id}`] || 0;
-    if (mistakes < 7) return;
-    if (gameState.helpCardUsesLeft <= 0) return;
-
-    gameState.helpCardUsesLeft = Math.max(0, gameState.helpCardUsesLeft - 1);
-    gameState.helpCardUsed = gameState.helpCardUsesLeft === 0;
-    question.helpCardActive = true;
-
-    const card = document.getElementById(`questionCard${slot}`);
-    if (!card) return;
-
-    const content = card.querySelector('.pair-question-content');
-    if (content) {
-        content.innerHTML = '';
-        content.appendChild(buildTypeAHelpOptions(question, slot));
-    }
-
-    const btn = document.getElementById(`helpCardBtn-${slot}`);
-    if (btn) btn.remove();
-
-    const otherSlot = slot === 0 ? 1 : 0;
-    const otherQuestion = getPairQuestion(otherSlot);
-    if (otherQuestion && otherQuestion.type === 'choice' && !otherQuestion.helpCardActive) {
-        const otherBtn = document.getElementById(`helpCardBtn-${otherSlot}`);
-        if (otherBtn) {
-            const activeT = translations[gameState.language] || translations.ja;
-            otherBtn.disabled = gameState.helpCardUsesLeft <= 0;
-            otherBtn.classList.toggle('unlocked', gameState.helpCardUsesLeft > 0);
-            otherBtn.textContent = gameState.helpCardUsesLeft > 0
-                ? activeT.helpCardButton
-                : activeT.helpCardUsedUp;
-        }
-    }
-
-    persistGameState();
-}
-
 const VALID_THEMES = ['default', 'mono', 'neon'];
 
 function applyTheme(theme) {
@@ -1591,11 +1596,13 @@ function renderQuestionPair() {
 
     const pFill = document.getElementById('progressFill');
     if (pFill) pFill.style.width = `${((gameState.pairPage + 1) / 4) * 100}%`;
+
+    setQuestion2Locked(!gameState.q1Correct);
 }
 
 function buildQuestionCard(question, slot) {
     const card = document.createElement('section');
-    card.className = `pair-question-card ${question.photoKey || question.puzzleKey ? 'photo-question-card' : ''}`;
+    card.className = `pair-question-card ${question.photoKey || question.puzzleKey ? 'photo-question-card' : ''} ${slot === 1 && !gameState.q1Correct ? 'question-locked' : ''}`;
     card.id = `questionCard${slot}`;
 
     const title = document.createElement('div');
@@ -1667,11 +1674,7 @@ function buildQuestionCard(question, slot) {
             content.appendChild(buildFillBlankInput(slot));
         }
     } else if (question.type === 'choice') {
-        if (question.helpCardActive) {
-            content.appendChild(buildTypeAHelpOptions(question, slot));
-        } else {
-            content.appendChild(buildFillBlankInput(slot));
-        }
+        content.appendChild(buildFillBlankInput(slot));
     }
 
     controls.appendChild(content);
@@ -1744,30 +1747,17 @@ function buildQuestionCard(question, slot) {
         hint.appendChild(easyBtn);
     }
 
-    if (question.type === 'choice' && !question.helpCardActive) {
-        const activeT = translations[gameState.language] || translations.ja;
-        const mistakes = gameState[`mistakes_${question.id}`] || 0;
-        const helpBtn = document.createElement('button');
-        helpBtn.id = `helpCardBtn-${slot}`;
-        helpBtn.className = 'btn-hint';
-        helpBtn.onclick = () => activateHelpCard(slot);
-
-        if (gameState.helpCardUsesLeft <= 0) {
-            helpBtn.textContent = activeT.helpCardUsedUp;
-            helpBtn.disabled = true;
-        } else if (mistakes >= 7) {
-            helpBtn.textContent = activeT.helpCardButton;
-            helpBtn.classList.add('unlocked');
-            helpBtn.disabled = false;
-        } else {
-            helpBtn.textContent = activeT.helpCardLocked;
-            helpBtn.disabled = true;
-        }
-        hint.appendChild(helpBtn);
-    }
-
     controls.appendChild(hint);
     card.appendChild(controls);
+
+    if (slot === 1 && !gameState.q1Correct) {
+        const lock = document.createElement('div');
+        lock.className = 'question-lock-overlay';
+        lock.textContent = gameState.language === 'en'
+            ? '🔒 Solve Question 1 first'
+            : '🔒 第1問を正解すると開きます';
+        card.appendChild(lock);
+    }
 
     return card;
 }
@@ -1808,6 +1798,8 @@ function addStamp() {
 
 // why the fuck are you a slot and not a qNum dude
 function checkAnswer(slot) {
+    if (slot === 1 && !gameState.q1Correct) return;
+
     const question = getPairQuestion(slot);
     if (!question) return;
 
@@ -1818,9 +1810,7 @@ function checkAnswer(slot) {
     const activeT = translations[gameState.language] || translations.ja;
 
     let userAnswer = '';
-    if (question.type === 'choice' && question.helpCardActive) {
-        userAnswer = card.querySelector(`input[name="helpCardAnswer-${slot}"]:checked`)?.value || '';
-    } else if (question.type === 'riddle' && question.easyModeActive) {
+    if (question.type === 'riddle' && question.easyModeActive) {
         userAnswer = card.querySelector(`input[name="easyAnswer-${slot}"]:checked`)?.value || '';
     } else {
         // Fill-in-the-blank: riddles (Type B) and Type A classroom-code questions.
@@ -1916,14 +1906,6 @@ function checkAnswer(slot) {
             easyBtn.disabled = false;
             easyBtn.classList.add('unlocked');
             easyBtn.textContent = activeT.easyModeButton;
-        }
-    }
-    if (mistakes >= 7 && !gameState.helpCardUsed) {
-        const helpBtn = document.getElementById(`helpCardBtn-${slot}`);
-        if (helpBtn) {
-            helpBtn.disabled = false;
-            helpBtn.classList.add('unlocked');
-            helpBtn.textContent = activeT.helpCardButton;
         }
     }
     persistGameState();
@@ -2231,8 +2213,6 @@ function resetGame() {
         hint1Attempts: {},
         hint2Attempts: {},
         easyModeUsed: false,
-        helpCardUsed: false,
-        helpCardUsesLeft: 2,
         answerLocked: false,
         isCooldown: false,
         language: previousLanguage,

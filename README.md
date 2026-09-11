@@ -1,5 +1,23 @@
 # Seitokai Quiz
 
+## Puzzle pairs
+
+The game is organized as four fixed pairs, matched by the top-left labels:
+
+- A1 + B1
+- A2 + B2
+- A3 + B3
+- A4 + B4
+
+This keeps each location puzzle paired with its matching feature puzzle and makes the flow readable in GitHub or a static browser view.
+
+## GitHub-safe setup
+
+- This project is plain HTML, CSS, and JavaScript.
+- No build step or package install is required.
+- Type A artwork is inline SVG and Type B artwork is embedded as data URLs.
+- The project can be opened directly from the repo and published to GitHub without extra asset files.
+
 ## Run locally
 
 Open `index.html` in a browser. No server, Python installation, or database is required.

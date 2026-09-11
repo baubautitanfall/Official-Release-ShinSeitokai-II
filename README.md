@@ -42,6 +42,10 @@ Start-Process "https://YOUR-DOMAIN.example/?clearProgress=1"
 
 This clears the saved progress for the browser that opens the link. The project has no server database, so it cannot delete every player's history globally.
 
+## Floor guide PDF
+
+The intermediate screen's map button now opens `floor_guide.pdf` (the real school floor guide) in an embedded viewer instead of the old generated diagram. It's referenced by a plain relative filename in the code, so it works the same way whether you open `index.html` straight from disk or publish the folder to GitHub Pages — just make sure `floor_guide.pdf` stays in the same folder as `index.html`, and keep the filename's case exactly as-is (GitHub Pages' server is case-sensitive, unlike Windows).
+
 ## Publish to GitHub
 
 Install Git, create an empty GitHub repository, then run these commands from this folder:

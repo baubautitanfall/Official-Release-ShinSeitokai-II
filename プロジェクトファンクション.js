@@ -358,6 +358,12 @@ function buildFloorPlanSvg(question) {
     </svg>`;
 }
 
+// The real school floor-guide PDF, shown inline in the map modal. Kept as
+// a relative path (no leading slash, no localhost/absolute URL) so it
+// resolves the same way whether the project is opened straight from the
+// filesystem or served from a GitHub Pages project subpath.
+const MAP_PDF_PATH = 'floor_guide.pdf';
+
 function renderGameMap() {
     const container = document.getElementById('mapContainer');
     if (!container) return;
@@ -382,104 +388,29 @@ function renderGameMap() {
                 <button type="button" class="map-close-btn" onclick="toggleMap()" aria-label="${escapeHtml(t.mapCloseIconLabel)}">✕</button>
             </div>
             <div class="map-callout-row">${foundChip}</div>
-            <div class="game-map-controls">
-                <button type="button" class="map-zoom-btn" onclick="mapZoomOut()" aria-label="${isEn ? 'Zoom out' : '縮小'}">−</button>
-                <button type="button" class="map-zoom-btn map-zoom-reset" onclick="mapZoomReset()" aria-label="${isEn ? 'Reset zoom' : '拡大率をリセット'}">⤢</button>
-                <button type="button" class="map-zoom-btn" onclick="mapZoomIn()" aria-label="${isEn ? 'Zoom in' : '拡大'}">＋</button>
-            </div>
-            <div class="game-map-viewport" id="gameMapViewport">
-                <div class="game-map-zoom-layer" id="gameMapZoomLayer">
-                    ${buildFloorPlanSvg(previousQuestion)}
-                </div>
-            </div>
-            <div class="map-legend">
-                <span class="map-legend-item"><span class="map-pin-swatch map-pin-found-swatch"></span>${escapeHtml(isEn ? 'Room you just found' : '見つけた教室')}</span>
+            <div class="game-map-viewport game-map-viewport-pdf" id="gameMapViewport">
+                <iframe
+                    class="game-map-pdf"
+                    id="gameMapPdfFrame"
+                    src="${escapeHtml(MAP_PDF_PATH)}"
+                    title="${escapeHtml(t.mapCaption)}"
+                    loading="lazy"
+                ></iframe>
+                <a class="map-pdf-fallback-link" href="${escapeHtml(MAP_PDF_PATH)}" target="_blank" rel="noopener">
+                    ${escapeHtml(isEn ? 'Open the PDF in a new tab' : 'PDFを新しいタブで開く')}
+                </a>
             </div>
             <p class="map-note">${t.mapNote}</p>
         </div>
     `;
-
-    const viewport = document.getElementById('gameMapViewport');
-    const layer = document.getElementById('gameMapZoomLayer');
-    if (viewport && layer) {
-        currentMapZoomCtl = attachMapZoomPan(viewport, layer);
-    }
 }
 
-// --- Pinch / wheel / drag zoom for the map viewport --------------------
-let currentMapZoomCtl = null;
-
-function attachMapZoomPan(viewport, layer) {
-    let scale = 1, tx = 0, ty = 0;
-    let isPanning = false, startX = 0, startY = 0, startTx = 0, startTy = 0;
-    let pinchStartDist = null, pinchStartScale = 1;
-    const MIN_SCALE = 1, MAX_SCALE = 3.2;
-
-    function apply() {
-        layer.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
-        viewport.classList.toggle('is-zoomed', scale > 1.01);
-    }
-    function clamp() {
-        scale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, scale));
-        if (scale === 1) { tx = 0; ty = 0; }
-    }
-
-    viewport.addEventListener('wheel', (e) => {
-        e.preventDefault();
-        scale += (e.deltaY > 0 ? -0.18 : 0.18);
-        clamp();
-        apply();
-    }, { passive: false });
-
-    viewport.addEventListener('pointerdown', (e) => {
-        if (scale <= 1) return;
-        isPanning = true;
-        startX = e.clientX; startY = e.clientY; startTx = tx; startTy = ty;
-        viewport.setPointerCapture(e.pointerId);
-        viewport.classList.add('is-panning');
-    });
-    viewport.addEventListener('pointermove', (e) => {
-        if (!isPanning) return;
-        tx = startTx + (e.clientX - startX);
-        ty = startTy + (e.clientY - startY);
-        apply();
-    });
-    ['pointerup', 'pointercancel', 'pointerleave'].forEach(ev => {
-        viewport.addEventListener(ev, () => { isPanning = false; viewport.classList.remove('is-panning'); });
-    });
-
-    viewport.addEventListener('touchmove', (e) => {
-        if (e.touches.length === 2) {
-            e.preventDefault();
-            const dist = Math.hypot(
-                e.touches[0].clientX - e.touches[1].clientX,
-                e.touches[0].clientY - e.touches[1].clientY
-            );
-            if (pinchStartDist == null) {
-                pinchStartDist = dist;
-                pinchStartScale = scale;
-            } else {
-                scale = pinchStartScale * (dist / pinchStartDist);
-                clamp();
-                apply();
-            }
-        }
-    }, { passive: false });
-    viewport.addEventListener('touchend', (e) => {
-        if (e.touches.length < 2) pinchStartDist = null;
-    });
-
-    apply();
-    return {
-        zoomIn: () => { scale += 0.45; clamp(); apply(); },
-        zoomOut: () => { scale -= 0.45; clamp(); apply(); },
-        reset: () => { scale = 1; tx = 0; ty = 0; apply(); }
-    };
-}
-
-function mapZoomIn() { if (currentMapZoomCtl) currentMapZoomCtl.zoomIn(); }
-function mapZoomOut() { if (currentMapZoomCtl) currentMapZoomCtl.zoomOut(); }
-function mapZoomReset() { if (currentMapZoomCtl) currentMapZoomCtl.reset(); }
+// NOTE: the map used to be a generated SVG floor plan with custom
+// pinch/wheel/drag zoom-and-pan handling (attachMapZoomPan). It's now the
+// real floor-guide PDF embedded in an <iframe>, and browsers' own built-in
+// PDF viewers already provide zoom/scroll/pinch, so that custom zoom-pan
+// controller was removed rather than fighting the iframe's own input
+// handling for pointer/touch events.
 
 // ==========================================
 // "ROOM CONFIRMED" FLASH — fires the instant a classroom-code (Type A)
@@ -535,7 +466,6 @@ function toggleMap() {
         container.classList.remove('map-fullscreen');
         document.body.classList.remove('map-open');
         btn.textContent = t.mapToggleBtn;
-        currentMapZoomCtl = null;
     }
 }
 
@@ -645,7 +575,7 @@ const translations = {
         mapToggleBtn: '地図を見てみる、、、？！',
         mapCloseBtn: '地図を閉じる',
         mapCaption: '校舎見取り図',
-        mapNote: '※緑色のマスが、今見つけた教室だよ。',
+        mapNote: '※PDF内でピンチ／スクロールして拡大・移動できるよ。',
         previousAnswerLabel: '前回の答え：',
         themeLabel: 'テーマ',
         themeDefault: 'デフォルト',
@@ -725,7 +655,7 @@ const translations = {
         mapToggleBtn: 'Abrir mapa',
         mapCloseBtn: 'Cerrar mapa',
         mapCaption: 'Plano del campus',
-        mapNote: 'La sala verde es la que acabas de encontrar.',
+        mapNote: 'Puedes hacer zoom y desplazarte dentro del PDF.',
         previousAnswerLabel: 'Respuesta previa:',
         themeLabel: 'Tema',
         themeDefault: 'Predeterminado',
@@ -804,7 +734,7 @@ const translations = {
         mapToggleBtn: 'Ouvrir la carte',
         mapCloseBtn: 'Fermer la carte',
         mapCaption: 'Plan du campus',
-        mapNote: 'La salle verte est la salle que vous avez trouvée.',
+        mapNote: 'Vous pouvez zoomer et faire défiler le PDF.',
         previousAnswerLabel: 'Réponse précédente :',
         themeLabel: 'Thème',
         themeDefault: 'Défaut',
@@ -883,7 +813,7 @@ const translations = {
         mapToggleBtn: '지도 열기',
         mapCloseBtn: '지도 닫기',
         mapCaption: '캠퍼스 평면도',
-        mapNote: '초록색 방이 방금 찾은 교실입니다.',
+        mapNote: 'PDF 안에서 확대하거나 스크롤할 수 있어요.',
         previousAnswerLabel: '이전 답안:',
         themeLabel: '테마',
         themeDefault: '기본',
@@ -962,7 +892,7 @@ const translations = {
         mapToggleBtn: '打开地图',
         mapCloseBtn: '关闭地图',
         mapCaption: '校园平面图',
-        mapNote: '绿色房间就是你刚找到的教室。',
+        mapNote: '你可以在PDF内放大和滚动查看。',
         previousAnswerLabel: '上一答案：',
         themeLabel: '主题',
         themeDefault: '默认',
@@ -1042,7 +972,7 @@ const translations = {
         mapToggleBtn: 'Open the Map with a button!',
         mapCloseBtn: 'Close Map',
         mapCaption: 'Campus Floor Plan',
-        mapNote: 'The green room is the classroom you just found.',
+        mapNote: 'You can zoom and scroll within the PDF.',
         previousAnswerLabel: 'Previous Answer:',
         themeLabel: 'Theme',
         themeDefault: 'Default',

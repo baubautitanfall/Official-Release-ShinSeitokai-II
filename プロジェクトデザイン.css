@@ -1863,7 +1863,7 @@ html[data-theme="neon"] .final-invite-card { background: #211f34; box-shadow: 0 
    distinct object hovering above the dimmed page, with its own shadow. */
 .map-modal-card {
     width: 100%;
-    max-width: 480px;
+    max-width: 720px;
     max-height: 100%;
     display: flex;
     flex-direction: column;
@@ -1894,7 +1894,7 @@ html[data-theme="neon"] .final-invite-card { background: #211f34; box-shadow: 0 
 
 .map-fullscreen-header {
     width: 100%;
-    max-width: 460px;
+    max-width: 680px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -1940,30 +1940,12 @@ html[data-theme="neon"] .final-invite-card { background: #211f34; box-shadow: 0 
 
 .game-map-container.map-fullscreen .game-map-viewport {
     width: 100%;
-    max-width: 460px;
-    /* matches the map SVG's own proportions (400 × 378 viewBox) so the
-       rectangle frame hugs the map snugly instead of leaving big empty
-       bands above/below it — while preserveAspectRatio on the SVG (see
-       the JS) still guarantees nothing is ever cropped if that ever
-       changes (e.g. more/fewer floors). */
-    aspect-ratio: 400 / 378;
+    max-width: 680px;
+    /* the real floor-guide PDF is a wide landscape sheet, unlike the old
+       generated SVG (which was closer to square) — give the frame a
+       landscape aspect so the PDF isn't squeezed into a tall box. */
+    aspect-ratio: 3 / 2;
     max-height: 100%;
-}
-
-/* Fit the map fully INSIDE its rectangle, on any screen, with no cropping.
-   (Previously this forced height:100% with width:auto, which could push
-   the map's edges past the viewport's width and get sliced off by the
-   overflow:hidden + border-radius below — that's what was clipping the
-   compass badge in the top-right corner.) Filling both dimensions and
-   letting the SVG's own viewBox + preserveAspectRatio="xMidYMid meet"
-   do the "contain" letterboxing internally is the reliable cross-browser
-   way to guarantee nothing is ever cropped, whatever shape the box is. */
-.game-map-container.map-fullscreen .game-map-svg {
-    width: 100%;
-    height: 100%;
-    max-width: 100%;
-    max-height: 100%;
-    margin: 0 auto;
 }
 
 @media (max-width: 640px) {
@@ -2046,78 +2028,49 @@ body.map-open {
     50%      { transform: translateY(-3px) rotate(1deg); }
 }
 
-/* ===== Zoom controls ===== */
-.game-map-controls {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin-bottom: 8px;
-}
-
-.map-zoom-btn {
-    width: 40px;
-    height: 40px;
-    border: 3px solid var(--ink);
-    border-radius: 10px;
-    background: var(--panel);
-    font-family: var(--font-display);
-    font-size: 1.2em;
-    line-height: 1;
-    color: var(--ink);
-    box-shadow: var(--shadow-sm);
-    cursor: pointer;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.map-zoom-btn:hover {
-    transform: translate(-1px, -1px);
-    box-shadow: 5px 5px 0 var(--ink);
-}
-
-.map-zoom-btn:active {
-    transform: translate(2px, 2px);
-    box-shadow: 1px 1px 0 var(--ink);
-}
-
-.map-zoom-reset {
-    font-size: 0.95em;
-}
-
-/* ===== Pannable / zoomable viewport ===== */
+/* ===== Map frame (now hosts the embedded floor-guide PDF) ===== */
 .game-map-viewport {
     position: relative;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     overflow: hidden;
     border-radius: 12px;
     border: 3px solid var(--ink);
     box-shadow: var(--shadow-sm);
-    touch-action: none;
-    cursor: grab;
     background: var(--panel);
 }
 
-/* a clean, fixed rectangle frame for the map so its shape never jumps
-   around — the SVG itself always "contains" fully inside it (see the
-   .game-map-svg rule above), never spilling past this border. */
-.game-map-container.map-fullscreen .game-map-viewport {
-    aspect-ratio: 3 / 4;
-    max-height: 100%;
+/* PDF viewers handle their own zoom/scroll/pinch, so the frame just needs
+   a clean landscape rectangle — no custom pan/zoom transform layer. */
+.game-map-viewport-pdf {
+    gap: 8px;
+    padding: 8px;
 }
 
-.game-map-viewport.is-zoomed {
-    cursor: grab;
+.game-map-pdf {
+    display: block;
+    width: 100%;
+    height: 100%;
+    flex: 1;
+    min-height: 0;
+    border: 0;
+    border-radius: 8px;
+    background: #ffffff;
 }
 
-.game-map-viewport.is-panning {
-    cursor: grabbing;
-}
-
-.game-map-zoom-layer {
-    transform-origin: center center;
-    transition: transform 0.12s ease-out;
-    will-change: transform;
+/* Shown alongside the iframe as a safety net for browsers/contexts (some
+   in-app browsers, some mobile PDF handling) that can't render a PDF
+   inline inside an <iframe> — always a plain, same-folder relative link
+   so it keeps working once the project is pushed to GitHub / GitHub
+   Pages, not just when opened locally. */
+.map-pdf-fallback-link {
+    font-family: var(--font-display);
+    font-size: 0.75em;
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 2px;
 }
 
 .game-map-svg {

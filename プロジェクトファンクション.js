@@ -509,7 +509,7 @@ const translations = {
         rules: [
             '全4組の謎解きに挑戦！各組は「場所」と「特徴」のペアで固定されています🔍✨',
             '各問題に対して正しい答えを入力してください',
-            '1ページに2問ずつ出題され、1問目を正解すると2問目が開きます',
+            '1ページに2問ずつ出題され、どちらから答えてもOKです',
             'ペア（1ページ2問）をクリアするごとにスタンプが1つ増えます（全部で4つ！）',
             'すべてのなぞなぞとコードをクリアして、宝箱を開ける！',
             '出題される4組の順番は毎回ランダムですが、各組のペア（場所と特徴）は必ず一緒に出ます'
@@ -589,7 +589,7 @@ const translations = {
         rules: [
             'Resuelve 4 pares fijos de enigmas. Cada par es un conjunto de "Lugar" + "Característica".',
             'Escribe la respuesta correcta para cada pregunta.',
-            'Cada página tiene 2 preguntas; la segunda se desbloquea tras responder bien la primera.',
+            'Cada página tiene 2 preguntas; puedes responderlas en cualquier orden.',
             'Ganas 1 sello por cada par resuelto.',
             'Resuelve todos los enigmas y códigos para abrir el tesoro.',
             'El orden cambia cada partida, pero cada par siempre sigue junto.'
@@ -669,7 +669,7 @@ const translations = {
         rules: [
             'Résolvez 4 paires d’énigmes fixes. Chaque paire est un ensemble "Lieu" + "Caractéristique".',
             'Saisissez la bonne réponse pour chaque question.',
-            'Deux questions par page ; la seconde se déverrouille après la première bonne réponse.',
+            'Deux questions par page ; répondez-y dans l’ordre que vous voulez.',
             'Vous gagnez 1 tampon par paire résolue.',
             'Résolvez tous les énigmes et codes pour ouvrir le trésor.',
             'L’ordre change chaque partie, mais chaque paire reste ensemble.'
@@ -748,7 +748,7 @@ const translations = {
         rules: [
             '4개의 고정된 퍼즐 쌍을 풀어보세요. 각 쌍은 "장소" + "특징" 조합입니다.',
             '각 문제의 정답을 입력해 주세요.',
-            '한 페이지 당 2문제, 첫 문제를 맞추면 두 번째가 열립니다.',
+            '한 페이지 당 2문제, 순서에 상관없이 풀 수 있습니다.',
             '한 쌍을 풀 때마다 스탬프 1개를 얻습니다.',
             '모든 퍼즐과 코드를 정리하면 보물을 열 수 있습니다.',
             '4쌍의 순서는 매번 바뀌지만 같은 쌍은 항상 함께 나옵니다.'
@@ -827,7 +827,7 @@ const translations = {
         rules: [
             '挑战 4 组固定谜题，每组都是“地点 + 特征”组合。',
             '每题都要输入正确答案。',
-            '每页有 2 题，答对第 1 题后第 2 题才会解锁。',
+            '每页有 2 题，两题可以按任意顺序作答。',
             '每完成一组谜题即可获得 1 枚印章（共 4 枚）。',
             '解完所有谜题和代码后就能打开宝箱。',
             '每次出的 4 组顺序都有变化，但每组配对始终保持在一起。'
@@ -906,7 +906,7 @@ const translations = {
         rules: [
             'Solve 4 fixed pairs of riddles! Each pair is a locked "Location" + "Feature" set 🔍✨',
             'Enter the correct answer for each question',
-            'Two questions appear on each page; Question 2 unlocks after Question 1 is correct',
+            'Two questions appear on each page; you can answer them in any order',
             'You earn 1 stamp every time you solve a pair page (4 stamps total!)',
             'Clear all riddles and secret codes to unlock the treasure!',
             'The order of the 4 pairs is randomized each time, but each pair (Location + Feature) always stays together'
@@ -1591,13 +1591,11 @@ function renderQuestionPair() {
 
     const pFill = document.getElementById('progressFill');
     if (pFill) pFill.style.width = `${((gameState.pairPage + 1) / 4) * 100}%`;
-
-    setQuestion2Locked(!gameState.q1Correct);
 }
 
 function buildQuestionCard(question, slot) {
     const card = document.createElement('section');
-    card.className = `pair-question-card ${question.photoKey || question.puzzleKey ? 'photo-question-card' : ''} ${slot === 1 && !gameState.q1Correct ? 'question-locked' : ''}`;
+    card.className = `pair-question-card ${question.photoKey || question.puzzleKey ? 'photo-question-card' : ''}`;
     card.id = `questionCard${slot}`;
 
     const title = document.createElement('div');
@@ -1771,15 +1769,6 @@ function buildQuestionCard(question, slot) {
     controls.appendChild(hint);
     card.appendChild(controls);
 
-    if (slot === 1 && !gameState.q1Correct) {
-        const lock = document.createElement('div');
-        lock.className = 'question-lock-overlay';
-        lock.textContent = gameState.language === 'en'
-            ? '🔒 Solve Question 1 first'
-            : '🔒 第1問を正解すると開きます';
-        card.appendChild(lock);
-    }
-
     return card;
 }
 
@@ -1819,8 +1808,6 @@ function addStamp() {
 
 // why the fuck are you a slot and not a qNum dude
 function checkAnswer(slot) {
-    if (slot === 1 && !gameState.q1Correct) return;
-
     const question = getPairQuestion(slot);
     if (!question) return;
 

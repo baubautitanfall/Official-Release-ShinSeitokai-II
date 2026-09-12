@@ -372,22 +372,12 @@ function renderGameMap() {
 
     // Only ever shows the room tied to "Previous Answer" on this same
     // screen — never the upcoming pair's room, so nothing is spoiled.
-    const previousQuestion = getPreviousMapQuestion();
-    const previousRoomLabel = previousQuestion ? `${previousQuestion.grade}-${previousQuestion.correctClass}` : null;
-
-    const foundChip = previousRoomLabel ? `
-        <div class="map-callout-chip map-callout-found">
-            <span class="map-target-pill">${escapeHtml(isEn ? 'You Found' : '見つけた教室')}</span>
-            <span class="map-target-room map-target-room-found">${escapeHtml(previousRoomLabel)}</span>
-        </div>` : '';
-
     container.innerHTML = `
         <div class="map-modal-card">
             <div class="map-fullscreen-header">
                 <span class="map-fullscreen-title">${escapeHtml(t.mapCaption)}</span>
                 <button type="button" class="map-close-btn" onclick="toggleMap()" aria-label="${escapeHtml(t.mapCloseIconLabel)}">✕</button>
             </div>
-            <div class="map-callout-row">${foundChip}</div>
             <div class="game-map-viewport game-map-viewport-pdf" id="gameMapViewport">
                 <iframe
                     class="game-map-pdf"

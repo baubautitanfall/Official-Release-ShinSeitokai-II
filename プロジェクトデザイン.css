@@ -1881,6 +1881,14 @@ html[data-theme="neon"] .final-invite-card { background: #211f34; box-shadow: 0 
     animation: mapCardPopIn 0.26s cubic-bezier(0.22, 0.8, 0.32, 1);
 }
 
+.game-map-container.map-fullscreen .map-modal-card {
+    position: static;
+    width: 100vw;
+    height: 100vh;
+    padding: 0;
+    overflow: hidden;
+}
+
 @keyframes mapCardPopIn {
     from { opacity: 0; transform: translateY(18px) scale(0.95); }
     to   { opacity: 1; transform: translateY(0) scale(1); }
@@ -1900,6 +1908,19 @@ html[data-theme="neon"] .final-invite-card { background: #211f34; box-shadow: 0 
     align-items: center;
     justify-content: space-between;
     gap: 12px;
+}
+
+.game-map-container.map-fullscreen .map-fullscreen-header {
+    position: fixed;
+    top: 14px;
+    right: 14px;
+    z-index: 2003;
+    width: auto;
+    max-width: none;
+}
+
+.game-map-container.map-fullscreen .map-fullscreen-title {
+    display: none;
 }
 
 .map-fullscreen-title {
@@ -1940,12 +1961,31 @@ html[data-theme="neon"] .final-invite-card { background: #211f34; box-shadow: 0 
 }
 
 .game-map-container.map-fullscreen .game-map-viewport {
-    width: 100%;
+    position: fixed;
+    inset: 0;
+    z-index: 2001;
+    width: 100vw;
+    height: 100vh;
     max-width: none;
-    flex: 1;
-    min-height: 0;
     max-height: none;
+    min-height: 0;
     aspect-ratio: auto;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+    gap: 0;
+}
+
+.game-map-container.map-fullscreen .map-callout-row,
+.game-map-container.map-fullscreen .map-pdf-fallback-link {
+    display: none;
+}
+
+.game-map-container.map-fullscreen .game-map-pdf {
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
 }
 
 @media (max-width: 640px) {
@@ -1958,6 +1998,10 @@ html[data-theme="neon"] .final-invite-card { background: #211f34; box-shadow: 0 
         padding: 10px 6px calc(10px + env(safe-area-inset-bottom));
         border-radius: 0;
         gap: 8px;
+    }
+
+    .game-map-container.map-fullscreen .map-modal-card {
+        padding: 0;
     }
 
     .map-fullscreen-header,

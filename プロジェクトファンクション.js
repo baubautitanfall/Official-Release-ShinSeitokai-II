@@ -450,7 +450,6 @@ function applyClassroomOptionData(question) {
 
     question.options = shuffleArray(codes);
     question.correctAnswer = `${question.grade}-${question.correctClass}`;
-    question.answers = [question.correctAnswer];
 
     return question;
 }
@@ -540,6 +539,7 @@ const translations = {
         antiCheatDevTools: '開発者ツールは禁止されています！',
         antiCheatContextMenu: '右クリックは禁止されています！',
         mapToggleLabel: '地図を表示：',
+        goHereLabel: 'Go Here! (Room):',
         mapToggleBtn: '地図を見てみる、、、？！',
         mapCloseBtn: '地図を閉じる',
         mapCaption: '校舎見取り図',
@@ -619,6 +619,7 @@ const translations = {
         antiCheatDevTools: '¡Las herramientas de desarrollador están bloqueadas!',
         antiCheatContextMenu: '¡El clic derecho está bloqueado!',
         mapToggleLabel: 'Mostrar mapa:',
+        goHereLabel: 'Ir aquí (sala):',
         mapToggleBtn: 'Abrir mapa',
         mapCloseBtn: 'Cerrar mapa',
         mapCaption: 'Plano del campus',
@@ -697,6 +698,7 @@ const translations = {
         antiCheatDevTools: 'Les outils de dev sont interdits !',
         antiCheatContextMenu: 'Le clic droit est interdit !',
         mapToggleLabel: 'Afficher la carte :',
+        goHereLabel: 'Allez ici (salle) :',
         mapToggleBtn: 'Ouvrir la carte',
         mapCloseBtn: 'Fermer la carte',
         mapCaption: 'Plan du campus',
@@ -775,6 +777,7 @@ const translations = {
         antiCheatDevTools: '개발자 도구는 금지됩니다!',
         antiCheatContextMenu: '마우스 우클릭은 금지됩니다!',
         mapToggleLabel: '지도 보기:',
+        goHereLabel: '여기로 가세요 (교실):',
         mapToggleBtn: '지도 열기',
         mapCloseBtn: '지도 닫기',
         mapCaption: '캠퍼스 평면도',
@@ -853,6 +856,7 @@ const translations = {
         antiCheatDevTools: '禁止使用开发者工具！',
         antiCheatContextMenu: '禁止右键点击！',
         mapToggleLabel: '显示地图：',
+        goHereLabel: '去这里（教室）：',
         mapToggleBtn: '打开地图',
         mapCloseBtn: '关闭地图',
         mapCaption: '校园平面图',
@@ -932,6 +936,7 @@ const translations = {
         antiCheatDevTools: 'Developer tools are disabled!',
         antiCheatContextMenu: 'Right-click is disabled!',
         mapToggleLabel: 'Show Map:',
+        goHereLabel: 'Go Here! (Room):',
         mapToggleBtn: 'Open the Map with a button!',
         mapCloseBtn: 'Close Map',
         mapCaption: 'Campus Floor Plan',
@@ -1048,6 +1053,21 @@ function formatPairAnswers() {
     const a = gameState.lastPairAnswerA || (gameState.language === 'en' ? '(no answer)' : '（未回答）');
     const b = gameState.lastPairAnswerB || (gameState.language === 'en' ? '(no answer)' : '（未回答）');
     return `${labelA}: ${a}　／　${labelB}: ${b}`;
+}
+
+function formatGoHereLocation() {
+    const solvedPair = gameState.pairPage;
+    const locationQuestion = [
+        gameState.questionSequence[solvedPair * 2],
+        gameState.questionSequence[solvedPair * 2 + 1]
+    ].find(question => question && question.type === 'choice');
+
+    if (!locationQuestion) return gameState.language === 'en' ? '(no room)' : '（教室情報なし）';
+
+    const roomCode = locationQuestion.grade !== undefined && locationQuestion.correctClass !== undefined
+        ? `${locationQuestion.grade}-${locationQuestion.correctClass}`
+        : '';
+    return [locationQuestion.destination, roomCode].filter(Boolean).join(' / ');
 }
 
 function shuffleArray(array) {
@@ -1331,6 +1351,8 @@ function applyLanguageUI() {
     // Previous Answer & Map boxes (intermediate screen)
     const prevLabel = document.getElementById('previousAnswerLabel');
     if (prevLabel) prevLabel.textContent = t.previousAnswerLabel;
+    const goHereLabel = document.getElementById('goHereLabel');
+    if (goHereLabel) goHereLabel.textContent = t.goHereLabel;
     const mapLabel = document.getElementById('mapToggleLabel');
     if (mapLabel) mapLabel.textContent = t.mapToggleLabel;
     const mapBtn = document.getElementById('mapToggleBtn');
@@ -1672,6 +1694,8 @@ function checkAnswer(slot) {
                 applyLanguageUI();
                 const prevEl = document.getElementById('previousAnswerText');
                 if (prevEl) prevEl.textContent = formatPairAnswers();
+                const goHereEl = document.getElementById('goHereText');
+                if (goHereEl) goHereEl.textContent = formatGoHereLocation();
             }, 900);
         }
         persistGameState();
@@ -2072,6 +2096,8 @@ document.addEventListener('DOMContentLoaded', () => {
             applyLanguageUI();
             const prevEl = document.getElementById('previousAnswerText');
             if (prevEl) prevEl.textContent = formatPairAnswers();
+            const goHereEl = document.getElementById('goHereText');
+            if (goHereEl) goHereEl.textContent = formatGoHereLocation();
         } else if (gameState.stage === 'finalCode') {
             showScreen('codeScreen');
             renderFinalCongratsContent();

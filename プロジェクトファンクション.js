@@ -1067,7 +1067,7 @@ function formatGoHereLocation() {
     const roomCode = locationQuestion.grade !== undefined && locationQuestion.correctClass !== undefined
         ? `${locationQuestion.grade}-${locationQuestion.correctClass}`
         : '';
-    return [locationQuestion.destination, roomCode].filter(Boolean).join(' / ');
+    return [...new Set([locationQuestion.destination, roomCode].filter(Boolean))].join(' / ');
 }
 
 function shuffleArray(array) {

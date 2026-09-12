@@ -528,7 +528,6 @@ const translations = {
         resultEmpty: '答えを入力してください！',
         resultWrong: '不正解です。もう一度試してください！',
         resultCorrect: 'やったね！大正解！！',
-        resultDuplicate: 'その回答はすでに試しました！',
         mistakeCountLabel: (n) => `失敗数: ${n}`,
         hint1Locked: 'ヒント１（3回失敗後に表示）',
         hint1Unlocked: 'ヒント１を見る',
@@ -608,7 +607,6 @@ const translations = {
         resultEmpty: '¡Escribe una respuesta!',
         resultWrong: 'Incorrecto. ¡Inténtalo otra vez!',
         resultCorrect: '¡Correcto!',
-        resultDuplicate: '¡Ya intentaste esa respuesta!',
         mistakeCountLabel: (n) => `Errores: ${n}`,
         hint1Locked: 'Pista 1 (se desbloquea tras 3 errores)',
         hint1Unlocked: 'Ver pista 1',
@@ -687,7 +685,6 @@ const translations = {
         resultEmpty: 'Veuillez saisir une réponse !',
         resultWrong: 'Mauvaise réponse. Réessayez !',
         resultCorrect: 'Bonne réponse !',
-        resultDuplicate: 'Vous avez déjà essayé cette réponse !',
         mistakeCountLabel: (n) => `Erreurs : ${n}`,
         hint1Locked: 'Indice 1 (débloqué après 3 erreurs)',
         hint1Unlocked: 'Voir l’indice 1',
@@ -766,7 +763,6 @@ const translations = {
         resultEmpty: '답을 입력해 주세요!',
         resultWrong: '오답입니다. 다시 시도해 보세요!',
         resultCorrect: '정답입니다!',
-        resultDuplicate: '이미 시도한 답입니다!',
         mistakeCountLabel: (n) => `실패 수: ${n}`,
         hint1Locked: '힌트 1 (3회 실패 후 해제)',
         hint1Unlocked: '힌트 1 보기',
@@ -845,7 +841,6 @@ const translations = {
         resultEmpty: '请输入答案！',
         resultWrong: '答错了，再试一次！',
         resultCorrect: '正确！',
-        resultDuplicate: '这个答案你已经试过了！',
         mistakeCountLabel: (n) => `错误次数：${n}`,
         hint1Locked: '提示 1（3 次错误后解锁）',
         hint1Unlocked: '查看提示 1',
@@ -925,7 +920,6 @@ const translations = {
         resultEmpty: 'Please enter your answer!',
         resultWrong: 'Incorrect. Please try again!',
         resultCorrect: 'Awesome! That is correct!!',
-        resultDuplicate: 'You already tried this answer!',
         mistakeCountLabel: (n) => `Mistakes: ${n}`,
         hint1Locked: 'Hint 1 (unlocks after 3 mistakes)',
         hint1Unlocked: 'View Hint 1',
@@ -1001,7 +995,6 @@ let gameState = {
     mistakesCount: 0,
     hint1Shown: false,
     hint2Shown: false,
-    wrongAnswerHistory: {},
     hint1Attempts: {},
     hint2Attempts: {},
     easyModeUsed: false,
@@ -1051,7 +1044,6 @@ function browserSaveState() {
         completedQuestions: gameState.completedQuestions,
         questionSequence: gameState.questionSequence.map(question => question.id),
         q1Correct: gameState.q1Correct,
-        wrongAnswerHistory: gameState.wrongAnswerHistory,
         hint1Attempts: gameState.hint1Attempts,
         hint2Attempts: gameState.hint2Attempts,
         easyModeUsed: gameState.easyModeUsed,
@@ -1060,7 +1052,6 @@ function browserSaveState() {
         lastPairAnswerB: gameState.lastPairAnswerB || null,
         language: gameState.language,
         theme: safeLocalStorageGet('gameTheme', 'default'),
-        savedAt: Date.now(),
         sessionUser: gameState.sessionUser ? { playerName: gameState.sessionUser.playerName, id: gameState.sessionUser.id } : null
     };
     safeLocalStorageSet(STORAGE_KEY, JSON.stringify(snapshot));
@@ -1086,7 +1077,6 @@ function restoreBrowserState() {
         gameState.completedQuestions = Number(saved.completedQuestions) || 0;
         gameState.questionSequence = mappedQuestions.length ? mappedQuestions : [];
         gameState.q1Correct = Boolean(saved.q1Correct);
-        gameState.wrongAnswerHistory = saved.wrongAnswerHistory || {};
         gameState.hint1Attempts = saved.hint1Attempts || {};
         gameState.hint2Attempts = saved.hint2Attempts || {};
         gameState.easyModeUsed = Boolean(saved.easyModeUsed);
@@ -1138,7 +1128,6 @@ function persistGameState() {
         questionSequence: gameState.questionSequence.map(question => question.id),
         q1Correct: gameState.q1Correct,
         mistakes: Object.fromEntries(Object.entries(gameState).filter(([key]) => key.startsWith('mistakes_'))),
-        wrongAnswerHistory: gameState.wrongAnswerHistory,
         hint1Attempts: gameState.hint1Attempts,
         hint2Attempts: gameState.hint2Attempts,
         easyModeUsed: gameState.easyModeUsed,
@@ -1751,7 +1740,6 @@ function checkAnswer(slot) {
         return;
     }
 
-    if (!gameState.wrongAnswerHistory[questionId]) gameState.wrongAnswerHistory[questionId] = [];
     const normalized = normalizeAnswer(userAnswer);
     const accepted = getAcceptedAnswers(question);
     const correct = accepted.some(answer => normalizeAnswer(answer) === normalized);
@@ -1790,17 +1778,6 @@ function checkAnswer(slot) {
         persistGameState();
         return;
     }
-
-    const duplicate = gameState.wrongAnswerHistory[questionId].some(
-        previous => normalizeAnswer(previous) === normalized
-    );
-    if (duplicate) {
-        resultElement.textContent = activeT.resultDuplicate;
-        resultElement.style.color = 'orange';
-        return;
-    }
-
-    gameState.wrongAnswerHistory[questionId].push(userAnswer);
 
     const mistakeKey = `mistakes_${questionId}`;
     gameState[mistakeKey] = (gameState[mistakeKey] || 0) + 1;
@@ -2137,7 +2114,6 @@ function resetGame() {
         mistakesCount: 0,
         hint1Shown: false,
         hint2Shown: false,
-        wrongAnswerHistory: {},
         hint1Attempts: {},
         hint2Attempts: {},
         easyModeUsed: false,

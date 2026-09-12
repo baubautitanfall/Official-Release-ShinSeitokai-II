@@ -1975,17 +1975,18 @@ html[data-theme="neon"] .final-invite-card { background: #211f34; box-shadow: 0 
     box-shadow: none;
     padding: 0;
     gap: 0;
+    justify-content: center;
 }
 
-.game-map-container.map-fullscreen .map-callout-row,
-.game-map-container.map-fullscreen .map-pdf-fallback-link {
+.game-map-container.map-fullscreen .map-callout-row {
     display: none;
 }
 
-.game-map-container.map-fullscreen .game-map-pdf {
-    width: 100vw;
-    height: 100vh;
-    border-radius: 0;
+.game-map-container.map-fullscreen .game-map-svg {
+    width: min(100%, 900px);
+    max-width: 100%;
+    max-height: 100%;
+    height: auto;
 }
 
 @media (max-width: 640px) {
@@ -2072,7 +2073,7 @@ body.map-open {
     50%      { transform: translateY(-3px) rotate(1deg); }
 }
 
-/* ===== Map frame (now hosts the embedded floor-guide PDF) ===== */
+/* ===== Map frame ===== */
 .game-map-viewport {
     position: relative;
     display: flex;
@@ -2084,37 +2085,6 @@ body.map-open {
     border: 3px solid var(--ink);
     box-shadow: var(--shadow-sm);
     background: var(--panel);
-}
-
-/* PDF viewers handle their own zoom/scroll/pinch, so the frame just needs
-   a clean landscape rectangle — no custom pan/zoom transform layer. */
-.game-map-viewport-pdf {
-    gap: 8px;
-    padding: 8px;
-}
-
-.game-map-pdf {
-    display: block;
-    width: 100%;
-    height: 100%;
-    flex: 1;
-    min-height: 0;
-    border: 0;
-    border-radius: 8px;
-    background: #ffffff;
-}
-
-/* Shown alongside the iframe as a safety net for browsers/contexts (some
-   in-app browsers, some mobile PDF handling) that can't render a PDF
-   inline inside an <iframe> — always a plain, same-folder relative link
-   so it keeps working once the project is pushed to GitHub / GitHub
-   Pages, not just when opened locally. */
-.map-pdf-fallback-link {
-    font-family: var(--font-display);
-    font-size: 0.75em;
-    color: var(--ink);
-    text-decoration: underline;
-    text-underline-offset: 2px;
 }
 
 .game-map-svg {

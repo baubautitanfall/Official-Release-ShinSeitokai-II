@@ -1164,6 +1164,16 @@ function getLocalizedQuestionText(question) {
     return question.question;
 }
 
+// Turns a question's "category" field (e.g. "タイプA1") into a short
+// "A-1" style tag so players can see at a glance which puzzle set a
+// question belongs to. Falls back to the raw category (or nothing) if
+// the field is missing or doesn't match the expected pattern.
+function getQuestionTypeLabel(question) {
+    if (!question || !question.category) return '';
+    const match = question.category.match(/([A-Za-z])\s*-?\s*(\d+)/);
+    return match ? `${match[1].toUpperCase()}-${match[2]}` : question.category;
+}
+
 function getAcceptedAnswers(question) {
     const answers = [...(question.answers || [])];
     answers.push(...(englishAnswersMap[question.id] || []));
@@ -1453,6 +1463,16 @@ function buildQuestionCard(question, slot) {
     const text = document.createElement('p');
     text.className = 'pair-question-text';
     text.textContent = getLocalizedQuestionText(question);
+
+    const typeLabel = getQuestionTypeLabel(question);
+    if (typeLabel) {
+        const typeTag = document.createElement('span');
+        typeTag.className = 'pair-question-type-tag';
+        typeTag.textContent = typeLabel;
+        text.appendChild(document.createTextNode(' '));
+        text.appendChild(typeTag);
+    }
+
     card.appendChild(text);
 
     if (question.photoKey || question.puzzleKey) {

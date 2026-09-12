@@ -1685,6 +1685,20 @@ html[data-theme="neon"] .final-invite-card { background: #211f34; box-shadow: 0 
 .pair-question-card:nth-child(2) { transform:rotate(0.25deg); }
 .pair-question-title { display:inline-block; background:var(--yellow); border:3px solid var(--ink); border-radius:8px; padding:6px 12px; font-family:var(--font-display); margin-bottom:14px; box-shadow:3px 3px 0 var(--ink); }
 .pair-question-text { font-family:var(--font-question); font-size:1.12em; font-weight:700; line-height:1.7; margin-bottom:16px; }
+.pair-question-type-tag {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-size: 0.62em;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: var(--ink);
+    background: var(--panel);
+    border: 2px solid var(--ink);
+    border-radius: 6px;
+    padding: 1px 7px;
+    vertical-align: middle;
+    opacity: 0.75;
+}
 
 .quiz-source-image {
     display: block;

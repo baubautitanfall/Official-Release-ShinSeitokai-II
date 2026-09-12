@@ -41,7 +41,7 @@ function svgHatchCell(x, y, w, h) {
 // ==========================================================
 function buildDinosaurPuzzleSvg() {
     const INK = '#1a1a1a';
-    let s = `<svg viewBox="0 0 1000 760" xmlns="http://www.w3.org/2000/svg" font-family="'M PLUS Rounded 1c', sans-serif">
+    let s = `<svg viewBox="0 0 1000 760" width="1000" height="760" xmlns="http://www.w3.org/2000/svg" font-family="'M PLUS Rounded 1c', sans-serif">
         <rect x="0" y="0" width="1000" height="760" fill="#ffffff"/>`;
 
     // ---- Grid 1 (torn left edge), 3x3, cell 78px, origin (30,30) ----
@@ -146,7 +146,7 @@ function buildDinosaurPuzzleSvg() {
 // ==========================================================
 function buildDancePuzzleSvg() {
     const INK = '#1a1a1a';
-    let s = `<svg viewBox="0 0 900 620" xmlns="http://www.w3.org/2000/svg" font-family="'M PLUS Rounded 1c', 'Zen Maru Gothic', sans-serif">
+    let s = `<svg viewBox="0 0 900 620" width="900" height="620" xmlns="http://www.w3.org/2000/svg" font-family="'M PLUS Rounded 1c', 'Zen Maru Gothic', sans-serif">
         <rect x="0" y="0" width="900" height="620" fill="#ffffff"/>
         <text x="450" y="70" font-size="46" font-weight="700" fill="${INK}" text-anchor="middle">□を足して○を読め</text>
 
@@ -192,7 +192,7 @@ function buildDumplingPuzzleSvg() {
     ];
     const ox = 90, oy = 80, cw = 92, ch = 92, cols = 9, rows = 6;
 
-    let s = `<svg viewBox="0 0 1080 860" xmlns="http://www.w3.org/2000/svg" font-family="'M PLUS Rounded 1c', 'Zen Maru Gothic', sans-serif">
+    let s = `<svg viewBox="0 0 1080 860" width="1080" height="860" xmlns="http://www.w3.org/2000/svg" font-family="'M PLUS Rounded 1c', 'Zen Maru Gothic', sans-serif">
         <rect x="0" y="0" width="1080" height="860" fill="#ffffff"/>`;
 
     // thin grid + characters
@@ -267,7 +267,7 @@ function buildDumplingPuzzleSvg() {
 function buildRayPuzzleSvg() {
     const INK = '#1a1a1a';
     const RED = '#e0392b';
-    let s = `<svg viewBox="0 0 1080 760" xmlns="http://www.w3.org/2000/svg" font-family="'M PLUS Rounded 1c', 'Zen Maru Gothic', sans-serif">
+    let s = `<svg viewBox="0 0 1080 760" width="1080" height="760" xmlns="http://www.w3.org/2000/svg" font-family="'M PLUS Rounded 1c', 'Zen Maru Gothic', sans-serif">
         <rect x="0" y="0" width="1080" height="760" fill="#ffffff"/>`;
 
     const dotRow = (y, pattern) => {

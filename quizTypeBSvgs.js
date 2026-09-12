@@ -9,5 +9,5 @@ const TYPE_B_PUZZLE_DATA = Object.freeze({
 function getTypeBPuzzleSvg(puzzleKey) {
     const imageData = TYPE_B_PUZZLE_DATA[puzzleKey];
     if (!imageData) return '';
-    return '<svg viewBox="0 0 1280 960" xmlns="http://www.w3.org/2000/svg" role="img" preserveAspectRatio="xMidYMid meet"><image href="' + imageData + '" width="1280" height="960" preserveAspectRatio="xMidYMid meet"/></svg>';
+    return '<svg viewBox="0 0 1280 960" width="1280" height="960" xmlns="http://www.w3.org/2000/svg" role="img" preserveAspectRatio="xMidYMid meet"><image href="' + imageData + '" width="1280" height="960" preserveAspectRatio="xMidYMid meet"/></svg>';
 }

@@ -42,9 +42,9 @@ Start-Process "https://YOUR-DOMAIN.example/?clearProgress=1"
 
 This starts a fresh in-memory game session for the browser that opens the link.
 
-## School map
+## Floor guide PDF
 
-The intermediate screen's map button shows the generated inline SVG floor plan. It works directly from `index.html` and on GitHub Pages without requiring a PDF viewer or external map asset.
+The intermediate screen's map button opens `floor_guide.pdf` in a large contained viewer. Keep the PDF beside `index.html` when publishing to GitHub Pages.
 
 ## Publish to GitHub
 

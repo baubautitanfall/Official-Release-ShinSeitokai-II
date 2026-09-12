@@ -362,7 +362,7 @@ function renderGameMap() {
     const container = document.getElementById('mapContainer');
     if (!container) return;
     const t = translations[gameState.language] || translations.ja;
-    const previousQuestion = getPreviousMapQuestion();
+    const mapPdfPath = 'floor_guide.pdf';
 
     // Only ever shows the room tied to "Previous Answer" on this same
     // screen — never the upcoming pair's room, so nothing is spoiled.
@@ -372,8 +372,11 @@ function renderGameMap() {
                 <span class="map-fullscreen-title">${escapeHtml(t.mapCaption)}</span>
                 <button type="button" class="map-close-btn" onclick="toggleMap()" aria-label="${escapeHtml(t.mapCloseIconLabel)}">✕</button>
             </div>
-            <div class="game-map-viewport" id="gameMapViewport">
-                ${previousQuestion ? buildFloorPlanSvg(previousQuestion) : ''}
+            <div class="game-map-viewport game-map-viewport-pdf" id="gameMapViewport">
+                <iframe class="game-map-pdf" id="gameMapPdfFrame" src="${escapeHtml(mapPdfPath)}" title="${escapeHtml(t.mapCaption)}" loading="lazy"></iframe>
+                <a class="map-pdf-fallback-link" href="${escapeHtml(mapPdfPath)}" target="_blank" rel="noopener">
+                    ${escapeHtml(gameState.language === 'en' ? 'Open the PDF in a new tab' : 'PDFを新しいタブで開く')}
+                </a>
             </div>
             <p class="map-note">${t.mapNote}</p>
         </div>
@@ -540,7 +543,7 @@ const translations = {
         mapToggleBtn: '地図を見てみる、、、？！',
         mapCloseBtn: '地図を閉じる',
         mapCaption: '校舎見取り図',
-        mapNote: '見つけた教室が表示された校舎マップです。',
+        mapNote: '※PDF内でピンチ／スクロールして拡大・移動できるよ。',
         previousAnswerLabel: '前回の答え：',
         themeLabel: 'テーマ',
         themeDefault: 'デフォルト',
@@ -619,7 +622,7 @@ const translations = {
         mapToggleBtn: 'Abrir mapa',
         mapCloseBtn: 'Cerrar mapa',
         mapCaption: 'Plano del campus',
-        mapNote: 'School map with the found classroom highlighted.',
+        mapNote: 'You can zoom and scroll within the PDF.',
         previousAnswerLabel: 'Respuesta previa:',
         themeLabel: 'Tema',
         themeDefault: 'Predeterminado',
@@ -697,7 +700,7 @@ const translations = {
         mapToggleBtn: 'Ouvrir la carte',
         mapCloseBtn: 'Fermer la carte',
         mapCaption: 'Plan du campus',
-        mapNote: 'Plan de l’école avec la salle trouvée mise en évidence.',
+        mapNote: 'Vous pouvez zoomer et faire défiler le PDF.',
         previousAnswerLabel: 'Réponse précédente :',
         themeLabel: 'Thème',
         themeDefault: 'Défaut',
@@ -775,7 +778,7 @@ const translations = {
         mapToggleBtn: '지도 열기',
         mapCloseBtn: '지도 닫기',
         mapCaption: '캠퍼스 평면도',
-        mapNote: '찾은 교실이 표시된 학교 지도입니다.',
+        mapNote: 'PDF 안에서 확대하거나 스크롤할 수 있어요.',
         previousAnswerLabel: '이전 답안:',
         themeLabel: '테마',
         themeDefault: '기본',
@@ -853,7 +856,7 @@ const translations = {
         mapToggleBtn: '打开地图',
         mapCloseBtn: '关闭地图',
         mapCaption: '校园平面图',
-        mapNote: '显示已找到教室的校园地图。',
+        mapNote: '你可以在PDF内放大和滚动查看。',
         previousAnswerLabel: '上一答案：',
         themeLabel: '主题',
         themeDefault: '默认',
@@ -932,7 +935,7 @@ const translations = {
         mapToggleBtn: 'Open the Map with a button!',
         mapCloseBtn: 'Close Map',
         mapCaption: 'Campus Floor Plan',
-        mapNote: 'School map with the found classroom highlighted.',
+        mapNote: 'You can zoom and scroll within the PDF.',
         previousAnswerLabel: 'Previous Answer:',
         themeLabel: 'Theme',
         themeDefault: 'Default',

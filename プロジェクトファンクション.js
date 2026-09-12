@@ -972,7 +972,6 @@ const translations = {
 // ==========================================
 // GAME STATE MANAGEMENT
 // ==========================================
-const STORAGE_KEY = 'seitokai_quiz_browser_save_v2';
 const SUPPORTED_LANGUAGES = ['ja', 'en', 'es', 'fr', 'ko', 'zh'];
 
 let gameState = {
@@ -1026,69 +1025,13 @@ function safeLocalStorageSet(key, value) {
     }
 }
 
-function browserSaveState() {
-    const snapshot = {
-        stage: gameState.stage,
-        pairPage: gameState.pairPage,
-        currentQuestion: gameState.currentQuestion,
-        completedQuestions: gameState.completedQuestions,
-        questionSequence: gameState.questionSequence.map(question => question.id),
-        q1Correct: gameState.q1Correct,
-        hint1Attempts: gameState.hint1Attempts,
-        hint2Attempts: gameState.hint2Attempts,
-        easyModeUsed: gameState.easyModeUsed,
-        mistakes: Object.fromEntries(Object.entries(gameState).filter(([key]) => key.startsWith('mistakes_'))),
-        lastPairAnswerA: gameState.lastPairAnswerA || null,
-        lastPairAnswerB: gameState.lastPairAnswerB || null,
-        language: gameState.language,
-        theme: safeLocalStorageGet('gameTheme', 'default'),
-        sessionUser: gameState.sessionUser ? { playerName: gameState.sessionUser.playerName, id: gameState.sessionUser.id } : null
-    };
-    safeLocalStorageSet(STORAGE_KEY, JSON.stringify(snapshot));
-}
-
 function restoreBrowserState() {
-    const raw = safeLocalStorageGet(STORAGE_KEY, null);
-    if (!raw) return false;
-
     try {
-        const saved = JSON.parse(raw);
-        const ids = Array.isArray(saved.questionSequence) ? saved.questionSequence : [];
-        const mappedQuestions = ids
-            .map(id => questions.find(q => q.id === Number(id)))
-            .filter(Boolean)
-            .map(q => ({ ...q }));
-
-        if (!mappedQuestions.length && saved.stage !== 'menu') return false;
-
-        gameState.stage = saved.stage || 'menu';
-        gameState.pairPage = Number(saved.pairPage) || 0;
-        gameState.currentQuestion = Number(saved.currentQuestion) || 0;
-        gameState.completedQuestions = Number(saved.completedQuestions) || 0;
-        gameState.questionSequence = mappedQuestions.length ? mappedQuestions : [];
-        gameState.q1Correct = Boolean(saved.q1Correct);
-        gameState.hint1Attempts = saved.hint1Attempts || {};
-        gameState.hint2Attempts = saved.hint2Attempts || {};
-        gameState.easyModeUsed = Boolean(saved.easyModeUsed);
-        gameState.lastPairAnswerA = saved.lastPairAnswerA || null;
-        gameState.lastPairAnswerB = saved.lastPairAnswerB || null;
-        gameState.language = SUPPORTED_LANGUAGES.includes(saved.language) ? saved.language : getPreferredLanguage();
-        safeLocalStorageSet('selectedLanguage', gameState.language);
-
-        Object.keys(saved).filter(key => key.startsWith('mistakes_')).forEach((key) => {
-            gameState[key] = saved[key];
-        });
-
-        if (saved.sessionUser?.playerName) {
-            gameState.sessionUser = saved.sessionUser;
-        }
-
-        const theme = saved.theme || safeLocalStorageGet('gameTheme', 'default');
-        applyTheme(theme);
-        return true;
-    } catch (error) {
-        return false;
+        localStorage.removeItem('seitokai_quiz_browser_save_v2');
+    } catch (e) {
+        // storage unavailable; start with a fresh in-memory session
     }
+    return false;
 }
 
 function populateBackgroundMarks() {
@@ -1110,22 +1053,7 @@ function populateBackgroundMarks() {
 }
 
 function persistGameState() {
-    const snapshot = {
-        stage: gameState.stage,
-        pairPage: gameState.pairPage,
-        currentQuestion: gameState.currentQuestion,
-        completedQuestions: gameState.completedQuestions,
-        questionSequence: gameState.questionSequence.map(question => question.id),
-        q1Correct: gameState.q1Correct,
-        mistakes: Object.fromEntries(Object.entries(gameState).filter(([key]) => key.startsWith('mistakes_'))),
-        hint1Attempts: gameState.hint1Attempts,
-        hint2Attempts: gameState.hint2Attempts,
-        easyModeUsed: gameState.easyModeUsed,
-        lastPairAnswerA: gameState.lastPairAnswerA || null,
-        lastPairAnswerB: gameState.lastPairAnswerB || null,
-        language: gameState.language
-    };
-    browserSaveState();
+    // Quiz progress is session-only; no browser history is saved.
 }
 
 // Helper Functions
@@ -2127,7 +2055,7 @@ function clearProgressFromLaunchFlag() {
     const params = new URLSearchParams(window.location.search);
     if (!params.has('clearProgress')) return;
 
-    [STORAGE_KEY, 'selectedLanguage', 'gameTheme'].forEach((key) => {
+    ['seitokai_quiz_browser_save_v2', 'selectedLanguage', 'gameTheme'].forEach((key) => {
         try {
             localStorage.removeItem(key);
         } catch (e) {

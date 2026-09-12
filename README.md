@@ -22,9 +22,9 @@ This keeps each location puzzle paired with its matching feature puzzle and make
 
 Open `index.html` in a browser. No server, Python installation, or database is required.
 
-The game supports one local player per browser run. The player profile, quiz progress, previous answers, language, and theme are saved in browser `localStorage` under the quiz save key. Starting a new game replaces the current local run; using **Play Again** keeps the same local player profile.
+The game supports one local player per browser run. Quiz progress and player history are kept only in memory and are cleared when the page is reloaded. Language and theme preferences may still be saved in the browser.
 
-The intermediate screen shows the answers from the pair just completed before the next code is entered. Clearing the browser's site data removes the local profile and saved progress.
+The intermediate screen shows the answers from the pair just completed before the next code is entered.
 
 ## Clear progress
 
@@ -40,7 +40,7 @@ For a public server, replace the URL with your deployed address:
 Start-Process "https://YOUR-DOMAIN.example/?clearProgress=1"
 ```
 
-This clears the saved progress for the browser that opens the link. The project has no server database, so it cannot delete every player's history globally.
+This starts a fresh in-memory game session for the browser that opens the link.
 
 ## Floor guide PDF
 
